@@ -29,162 +29,185 @@ FASTQ
 → alignment to the fixed OMHI species universe
 → CLR transformation
 → OMHI score calculation
+```
+OMHI is not a diagnostic test and should not be used to infer a specific disease.
 
-Installation
+## Installation
 
 Clone the repository:
 
+```text
 git clone https://github.com/minjunhoo2001/OMHI.git
 cd OMHI
+```
 
 Create the conda environment:
 
+```text
 conda env create -f environment.yml
 conda activate omhi_env
+```
 
 Check installation:
 
+```text
 bash workflow/test_installation.sh
-
+```
 If all required commands and model files are detected, the installation is ready.
 
-Required databases
+
+## Required databases
 
 The full OMHI pipeline requires two external databases:
-
-A human Bowtie2 index for host read removal.
-A MetaPhlAn4 database for taxonomic profiling.
-
+1.A human Bowtie2 index (GRCh38) for host read removal.
+2.A MetaPhlAn4 database  (mpa_vJun23_CHOCOPhlAnSGB_202403) for taxonomic profiling.
 These databases are not included in this repository.
 
 Example paths:
-
+```text
 HOST_INDEX=/path/to/human_bowtie2_index/human_ref
 MPA_DB=/path/to/metaphlan4_database
 MPA_INDEX=mpa_vJun23_CHOCOPhlAnSGB_202403
-
-HOST_INDEX should be the Bowtie2 index prefix, not the folder name.
-
+```
+**HOST_INDEX** should be the Bowtie2 index prefix, not the folder name.
 For example, if the index files are:
-
+```text
 /path/to/human_ref.1.bt2
 /path/to/human_ref.2.bt2
 /path/to/human_ref.3.bt2
 /path/to/human_ref.4.bt2
-
+```
 then use:
-
+```text
 HOST_INDEX=/path/to/human_ref
-Input format
+```
+
+## Input format
 
 The full pipeline requires a tab-delimited sample sheet:
-
+```text
 sample_id	r1	r2
 sample01	/path/to/sample01_R1.fastq.gz	/path/to/sample01_R2.fastq.gz
 sample02	/path/to/sample02_R1.fastq.gz	/path/to/sample02_R2.fastq.gz
-
+```
 The header must be exactly:
-
+```text
 sample_id	r1	r2
-Run the full OMHI pipeline
+```
+
+## Run the full OMHI pipeline
+```text
 THREADS=8 \
 HOST_INDEX=/path/to/human_ref \
 MPA_DB=/path/to/metaphlan4_database \
 MPA_INDEX=mpa_vJun23_CHOCOPhlAnSGB_202403 \
 bash workflow/run_omhi_pipeline.sh samples.tsv results
-
+```
 The final OMHI scores will be written to:
-
+```text
 results/05.omhi/omhi_scores.tsv
-Output
+```
+
+## Output
 
 The output file contains:
-
+```text
 sample_id	OMHI	predicted_state	matched_universe_taxa	total_universe_taxa
+```
+```text
 Column	Description
 sample_id	Sample identifier
 OMHI	Oral Microbiome Health Index score
 predicted_state	health_associated if OMHI > 0; otherwise disease_associated
 matched_universe_taxa	Number of OMHI universe species matched in the input
 total_universe_taxa	Number of species in the fixed OMHI species universe
+```
 
 Interpretation:
-
+```text
 OMHI > 0    more health-associated oral microbial profile
 OMHI < 0    more disease-associated oral microbial profile
-Calculate OMHI from an existing species-level table
+```
+
+## Calculate OMHI from an existing species-level table
 
 If MetaPhlAn4 has already been run, users can calculate OMHI directly from a species-level abundance table.
 
 Input format:
-
+```text
 feature	sample01	sample02
 Neisseria_subflava	0.012	0.004
 Streptococcus_sanguinis	0.003	0.001
 Tannerella_forsythia	0.000	0.005
-
+```
 Run:
-
+```text
 Rscript scripts/calc_omhi.R \
   --input taxonomy_species.tsv \
   --coef model/omhi_species_coefficients.tsv \
   --universe model/omhi_species_universe.tsv \
   --output omhi_scores.tsv
-
+```
 Important note:
-
+```text
 OMHI is calculated after aligning MetaPhlAn4 species profiles to the fixed OMHI species universe.
 Species not detected in a sample are assigned zero abundance before CLR transformation.
 CLR transformation is always performed over this fixed OMHI species universe.
-Calculate OMHI from a MetaPhlAn4 merged table
+```
+
+## Calculate OMHI from a MetaPhlAn4 merged table
 
 If users already have a merged MetaPhlAn4 table, first extract species-level abundance:
-
+```text
 python scripts/metaphlan_level_extractor.py \
   metaphlan4_merged.tsv \
   level
-
+```
 Then calculate OMHI:
-
+```text
 Rscript scripts/calc_omhi.R \
   --input level/species.tsv \
   --coef model/omhi_species_coefficients.tsv \
   --universe model/omhi_species_universe.tsv \
   --output omhi_scores.tsv
-HPC / LSF example
+```
+
+## HPC / LSF example
 
 An example LSF submission script is provided:
-
+```text
 bsub < submit/submit_omhi_test.lsf
-
+```
 Users should modify the following variables in the submission script:
-
+```text
 PROJECT_DIR="/path/to/OMHI"
 HOST_INDEX="/path/to/human_ref"
 MPA_DB="/path/to/metaphlan4_database"
 MPA_INDEX="mpa_vJun23_CHOCOPhlAnSGB_202403"
 SAMPLE_SHEET="samples.tsv"
 OUTDIR="results"
-Model files
+```
+
+## Model files
 
 The released OMHI model files are stored in model/:
-
+```text
 model/
 ├── omhi_species_coefficients.tsv
 ├── omhi_species_coefficients_full.tsv
 ├── omhi_species_coefficients_nonzero.tsv
 ├── omhi_species_universe.tsv
 └── omhi_species_model_config.tsv
+```
+**omhi_species_universe.tsv** defines the fixed species set used for CLR transformation.
 
-omhi_species_universe.tsv defines the fixed species set used for CLR transformation.
-
-omhi_species_coefficients.tsv contains the coefficients used to calculate OMHI.
+**omhi_species_coefficients.tsv** contains the coefficients used to calculate OMHI.
 
 Citation
 
 If you use OMHI, please cite:
 
-[Your OMHI manuscript citation here]
+[OMHI manuscript citation here]
 License
 
 This project is released under the MIT License.
