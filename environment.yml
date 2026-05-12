@@ -1,0 +1,19 @@
+name: omhi_env
+
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  - python=3.10
+  - fastp=0.24.1
+  - bowtie2=2.5.4
+  - metaphlan=4.1.1
+  - samtools
+  - pigz
+  - r-base
+  - r-data.table
+  - r-optparse
+  - conda-pack
+
