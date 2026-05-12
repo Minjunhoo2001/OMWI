@@ -1,7 +1,7 @@
 # OMHI: Oral Microbiome Health Index
 
 <p align="center">
-  <img src="images/omhi_workflow.png" width="850">
+  <img src="images/OMHI-profile.png" width="850">
 </p>
 
 <p align="center">
