@@ -203,11 +203,10 @@ model/
 
 **omhi_species_coefficients.tsv** contains the coefficients used to calculate OMHI.
 
-Citation
+## Citation
 
 If you use OMHI, please cite:
-
 [OMHI manuscript citation here]
-License
 
+## License
 This project is released under the MIT License.
