@@ -1,0 +1,25 @@
+model_name: OMHI
+model_type: elastic_net_logistic_regression
+feature_level: species
+input_profile: MetaPhlAn4 species relative abundance
+metaphlan_database: mpa_vJun23_CHOCOPhlAnSGB_202403
+
+preprocessing:
+  transform: CLR
+  pseudocount: 1e-6
+  missing_model_taxa: fill_zero
+
+model:
+  alpha: 0.5
+  lambda_used: lambda.1se
+  lambda_value: 0.0378539279389086
+  positive_label: healthy
+  negative_label: disease
+  intercept: -0.800988296731756
+
+score:
+  name: OMHI
+  definition: intercept + sum(coefficient * CLR abundance)
+  cutoff: 0
+  positive_score: health-associated oral microbiome profile
+  negative_score: disease-associated oral microbiome profile
