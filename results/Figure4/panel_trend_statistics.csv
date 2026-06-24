@@ -1,0 +1,4 @@
+panel_group,panel_label,n,rho,p_trend,p_label
+Colorectal,Colorectal progression,122,-0.44603475087895,2.62076060914817e-07,Trend P < 0.001
+Gastric,Gastric progression,118,-0.545078873708181,1.75159000249971e-10,Trend P < 0.001
+RA,RA activity,121,-0.549164183694237,6.92615034867806e-11,Trend P < 0.001

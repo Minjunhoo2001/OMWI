@@ -1,0 +1,68 @@
+[OMHI] Pipeline started at: Tue May 12 16:18:21 CST 2026
+[OMHI] Sample sheet: samples.test.tsv
+[OMHI] Output directory: test_results_env
+[OMHI] Threads: 4
+[OMHI] Host Bowtie2 index: /share/home/LiaoYing/db/bowtie2/human_ref
+[OMHI] MetaPhlAn4 DB: /share/home/HeMinjun/db/metaphlan4
+[OMHI] MetaPhlAn4 index: mpa_vJun23_CHOCOPhlAnSGB_202403
+[OMHI] OMHI coefficients: model/omhi_species_coefficients.tsv
+[OMHI] OMHI universe: model/omhi_species_universe.tsv
+
+=========================================================
+[OMHI] Processing sample: SRR28645805
+=========================================================
+[OMHI] Running fastp: SRR28645805
+[OMHI] Pipeline started at: Tue May 12 16:23:04 CST 2026
+[OMHI] Sample sheet: samples.test.tsv
+[OMHI] Output directory: test_results_env
+[OMHI] Threads: 4
+[OMHI] Host Bowtie2 index: /share/home/LiaoYing/db/bowtie2/human_ref
+[OMHI] MetaPhlAn4 DB: /share/home/HeMinjun/db/metaphlan4
+[OMHI] MetaPhlAn4 index: mpa_vJun23_CHOCOPhlAnSGB_202403
+[OMHI] OMHI coefficients: model/omhi_species_coefficients.tsv
+[OMHI] OMHI universe: model/omhi_species_universe.tsv
+
+=========================================================
+[OMHI] Processing sample: SRR28645805
+=========================================================
+[OMHI] Running fastp: SRR28645805
+[OMHI] Removing host reads with Bowtie2: SRR28645805
+[OMHI] Running MetaPhlAn4: SRR28645805
+
+=========================================================
+[OMHI] Processing sample: SRR28645822
+=========================================================
+[OMHI] Running fastp: SRR28645822
+[OMHI] Removing host reads with Bowtie2: SRR28645822
+[OMHI] Running MetaPhlAn4: SRR28645822
+
+=========================================================
+[OMHI] Merging MetaPhlAn4 profiles
+=========================================================
+
+=========================================================
+[OMHI] Extracting taxonomic levels from MetaPhlAn4 table
+=========================================================
+Traceback (most recent call last):
+  File "/share/home/HeMinjun/miniconda3/envs/omhi_env/lib/python3.10/site-packages/pandas/core/indexes/base.py", line 3812, in get_loc
+    return self._engine.get_loc(casted_key)
+  File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'ID'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/share/home/HeMinjun/metagenomic/GitHub/scripts/metaphlan_level_extractor.py", line 69, in <module>
+    main()
+  File "/share/home/HeMinjun/metagenomic/GitHub/scripts/metaphlan_level_extractor.py", line 65, in main
+    extract_metaphlan_levels(input_file, output_dir)
+  File "/share/home/HeMinjun/metagenomic/GitHub/scripts/metaphlan_level_extractor.py", line 19, in extract_metaphlan_levels
+    df['level'] = df['ID'].str.count(r'\|') + 1
+  File "/share/home/HeMinjun/miniconda3/envs/omhi_env/lib/python3.10/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "/share/home/HeMinjun/miniconda3/envs/omhi_env/lib/python3.10/site-packages/pandas/core/indexes/base.py", line 3819, in get_loc
+    raise KeyError(key) from err
+KeyError: 'ID'

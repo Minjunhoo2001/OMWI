@@ -1,0 +1,155 @@
+Sender: LSF System <lsfadmin@c05n01>
+Subject: Job 11767: <OMHI_test> in cluster <lsfcluster> Exited
+
+Job <OMHI_test> was submitted from host <login> by user <HeMinjun> in cluster <lsfcluster>.
+Job was executed on host(s) <40*c05n01>, in queue <blade>, as user <HeMinjun> in cluster <lsfcluster>.
+</share/home/HeMinjun> was used as the home directory.
+</share/home/HeMinjun/metagenomic/GitHub> was used as the working directory.
+Started at Results reported on 
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J OMHI_test
+#BSUB -q blade
+#BSUB -n 40
+#BSUB -R "span[hosts=1]"
+#BSUB -o logs/OMHI_test.out
+#BSUB -e logs/OMHI_test.err
+
+set -uo pipefail
+
+echo "[OMHI] Job started at: $(date)"
+echo "[OMHI] Job ID: ${LSB_JOBID:-NA}"
+echo "[OMHI] Host: $(hostname)"
+
+# =========================================================
+# 1. Project directory
+# =========================================================
+PROJECT_DIR="/share/home/HeMinjun/metagenomic/GitHub"
+cd "${PROJECT_DIR}"
+
+# =========================================================
+# 2. Activate conda environment
+# =========================================================
+source /share/home/HeMinjun/miniconda3/etc/profile.d/conda.sh
+conda activate omhi_env
+
+echo "[OMHI] Conda env: ${CONDA_DEFAULT_ENV}"
+which fastp
+which bowtie2
+which metaphlan
+which merge_metaphlan_tables.py
+which Rscript
+which python
+
+# =========================================================
+# 3. Pipeline parameters
+# =========================================================
+export THREADS=4
+export HOST_INDEX="/share/home/LiaoYing/db/bowtie2/human_ref"
+export MPA_DB="/share/home/HeMinjun/db/metaphlan4"
+export MPA_INDEX="mpa_vJun23_CHOCOPhlAnSGB_202403"
+
+SAMPLE_SHEET="samples.test.tsv"
+OUTDIR="test_results_env"
+
+# =========================================================
+# 4. Run OMHI pipeline
+# =========================================================
+bash workflow/run_omhi_pipeline.sh "${SAMPLE_SHEET}" "${OUTDIR}"
+
+
+(... more ...)
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   7352.08 sec.
+    Max Memory :                                 19317 MB
+    Average Memory :                             11571.86 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              13
+    Max Threads :                                96
+    Run time :                                   1485 sec.
+    Turnaround time :                            1486 sec.
+
+The output (if any) follows:
+
+[OMHI] Job started at: Tue May 12 16:23:00 CST 2026
+[OMHI] Job ID: 11767
+[OMHI] Host: c05n01
+[OMHI] Conda env: omhi_env
+/share/home/HeMinjun/miniconda3/envs/omhi_env/bin/fastp
+/share/home/HeMinjun/miniconda3/envs/omhi_env/bin/bowtie2
+/share/home/HeMinjun/miniconda3/envs/omhi_env/bin/metaphlan
+/share/home/HeMinjun/miniconda3/envs/omhi_env/bin/merge_metaphlan_tables.py
+/share/home/HeMinjun/miniconda3/envs/omhi_env/bin/Rscript
+/share/home/HeMinjun/miniconda3/envs/omhi_env/bin/python
+[OMHI] Pipeline started at: Tue May 12 16:23:04 CST 2026
+[OMHI] Sample sheet: samples.test.tsv
+[OMHI] Output directory: test_results_env
+[OMHI] Threads: 4
+[OMHI] Host Bowtie2 index: /share/home/LiaoYing/db/bowtie2/human_ref
+[OMHI] MetaPhlAn4 DB: /share/home/HeMinjun/db/metaphlan4
+[OMHI] MetaPhlAn4 index: mpa_vJun23_CHOCOPhlAnSGB_202403
+[OMHI] OMHI coefficients: model/omhi_species_coefficients.tsv
+[OMHI] OMHI universe: model/omhi_species_universe.tsv
+
+=========================================================
+[OMHI] Processing sample: SRR28645805
+=========================================================
+[OMHI] Running fastp: SRR28645805
+[OMHI] Removing host reads with Bowtie2: SRR28645805
+[OMHI] Running MetaPhlAn4: SRR28645805
+
+=========================================================
+[OMHI] Processing sample: SRR28645822
+=========================================================
+[OMHI] Running fastp: SRR28645822
+[OMHI] Removing host reads with Bowtie2: SRR28645822
+[OMHI] Running MetaPhlAn4: SRR28645822
+
+=========================================================
+[OMHI] Merging MetaPhlAn4 profiles
+=========================================================
+
+=========================================================
+[OMHI] Extracting taxonomic levels from MetaPhlAn4 table
+=========================================================
+Traceback (most recent call last):
+  File "/share/home/HeMinjun/miniconda3/envs/omhi_env/lib/python3.10/site-packages/pandas/core/indexes/base.py", line 3812, in get_loc
+    return self._engine.get_loc(casted_key)
+  File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'ID'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/share/home/HeMinjun/metagenomic/GitHub/scripts/metaphlan_level_extractor.py", line 69, in <module>
+    main()
+  File "/share/home/HeMinjun/metagenomic/GitHub/scripts/metaphlan_level_extractor.py", line 65, in main
+    extract_metaphlan_levels(input_file, output_dir)
+  File "/share/home/HeMinjun/metagenomic/GitHub/scripts/metaphlan_level_extractor.py", line 19, in extract_metaphlan_levels
+    df['level'] = df['ID'].str.count(r'\|') + 1
+  File "/share/home/HeMinjun/miniconda3/envs/omhi_env/lib/python3.10/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "/share/home/HeMinjun/miniconda3/envs/omhi_env/lib/python3.10/site-packages/pandas/core/indexes/base.py", line 3819, in get_loc
+    raise KeyError(key) from err
+KeyError: 'ID'
+[OMHI] Job finished at: Tue May 12 16:47:45 CST 2026
+[OMHI] Final result:
+
+
+PS:
+
+Read file <logs/OMHI_test.err> for stderr output of this job.
+

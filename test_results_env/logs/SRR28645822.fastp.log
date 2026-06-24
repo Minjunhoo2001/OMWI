@@ -1,0 +1,47 @@
+Detecting adapter sequence for read1...
+No adapter detected for read1
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+Read1 before filtering:
+total reads: 6410202
+total bases: 938476780
+Q20 bases: 928451047(98.9317%)
+Q30 bases: 898650924(95.7563%)
+
+Read2 before filtering:
+total reads: 6410202
+total bases: 932199749
+Q20 bases: 913006534(97.9411%)
+Q30 bases: 865248459(92.8179%)
+
+Read1 after filtering:
+total reads: 6409958
+total bases: 938374159
+Q20 bases: 928353205(98.9321%)
+Q30 bases: 898559499(95.7571%)
+
+Read2 after filtering:
+total reads: 6409958
+total bases: 932108648
+Q20 bases: 912922803(97.9417%)
+Q30 bases: 865173744(92.819%)
+
+Filtering result:
+reads passed filter: 12819916
+reads failed due to low quality: 0
+reads failed due to too many N: 488
+reads failed due to too short: 0
+reads with adapter trimmed: 3632
+bases trimmed due to adapters: 125579
+
+Duplication rate: 5.87969%
+
+Insert size peak (evaluated by paired-end reads): 223
+
+JSON report: test_results_env/01.qc/SRR28645822.fastp.json
+HTML report: test_results_env/01.qc/SRR28645822.fastp.html
+
+fastp -i /share/home/HeMinjun/metagenomic/analysisdata/BrunoJS_2025_PRJNA1093152/rawdata/SRR28645822_1.fastq.gz -I /share/home/HeMinjun/metagenomic/analysisdata/BrunoJS_2025_PRJNA1093152/rawdata/SRR28645822_2.fastq.gz -o test_results_env/01.qc/SRR28645822.clean.R1.fq.gz -O test_results_env/01.qc/SRR28645822.clean.R2.fq.gz --detect_adapter_for_pe --thread 4 --html test_results_env/01.qc/SRR28645822.fastp.html --json test_results_env/01.qc/SRR28645822.fastp.json 
+fastp v0.24.1, time used: 40 seconds

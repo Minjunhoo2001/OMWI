@@ -1,0 +1,7 @@
+"set","n_healthy","n_disease","p_value","cliff_delta","balanced_accuracy","p_adj","label"
+"Training",471,634,1.08078990269655e-87,-0.0469770338966023,0.749919628684522,2.16157980539311e-87,"P < 0.001
+d = -0.05
+Balanced Accuracy = 75.0%"
+"External validation",546,215,1.3106713557925e-22,-2.0890365448505,0.656785075389727,1.3106713557925e-22,"P < 0.001
+d = -2.09
+Balanced Accuracy = 65.7%"
