@@ -1,0 +1,5 @@
+analysis,adjusted,n,p_interaction,model_reduced,model_full
+age,FALSE,765,0.0112341047683633,disease01 ~ OMWI + age_order,disease01 ~ OMWI * age_order
+age,TRUE,765,0.0451139379344527,disease01 ~ OMWI + age_order + sex_group + study_use,disease01 ~ OMWI * age_order + sex_group + study_use
+sex,FALSE,1386,0.825224684249723,disease01 ~ OMWI + sex_group,disease01 ~ OMWI * sex_group
+sex,TRUE,1386,0.905400806932794,disease01 ~ OMWI + sex_group + age_num + study_use,disease01 ~ OMWI * sex_group + age_num + study_use

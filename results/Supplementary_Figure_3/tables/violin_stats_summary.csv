@@ -1,0 +1,15 @@
+"dataset","metric","p_value","cliff_d","n_healthy","n_disease","balanced_acc","p_label","d_label","ba_label"
+"Training","OMWI",1.08078990269655e-87,0.697502461371536,471,634,0.749919628684522,"P < 0.001","Cliff's δ = 0.70","Balanced Accuracy = 75.0%"
+"Training","shannon",0.425860114991401,-0.0279826130054184,471,634,NA,"P = 0.426","Cliff's δ = -0.03",NA
+"Training","simpson",0.569429671533963,-0.0199923647250296,471,634,NA,"P = 0.569","Cliff's δ = -0.02",NA
+"Training","richness",0.206132602372851,-0.0444252446301915,471,634,NA,"P = 0.206","Cliff's δ = -0.04",NA
+"Training","PCoA1",0.00108966545628223,0.114770238501879,471,634,NA,"P < 0.01","Cliff's δ = 0.11",NA
+"Training","PCoA2",0.292141216970506,-0.0370176883870147,471,634,NA,"P = 0.292","Cliff's δ = -0.04",NA
+"Training","PCoA3",0.000405047064242693,-0.124274146557094,471,634,NA,"P < 0.001","Cliff's δ = -0.12",NA
+"External validation","OMWI",1.3106713557925e-22,0.45514950166113,546,215,0.656785075389727,"P < 0.001","Cliff's δ = 0.46","Balanced Accuracy = 65.7%"
+"External validation","shannon",0.729250914914918,0.0161086975040463,546,215,NA,"P = 0.729","Cliff's δ = 0.02",NA
+"External validation","simpson",0.83162501392438,-0.00989862850327966,546,215,NA,"P = 0.832","Cliff's δ = -0.01",NA
+"External validation","richness",0.127080173499133,-0.0709770849305733,546,215,NA,"P = 0.127","Cliff's δ = -0.07",NA
+"External validation","PCoA1",0.444470749032456,-0.0356372599363254,546,214,NA,"P = 0.444","Cliff's δ = -0.04",NA
+"External validation","PCoA2",0.0244311535199871,-0.104857759063367,546,214,NA,"P < 0.05","Cliff's δ = -0.10",NA
+"External validation","PCoA3",0.000534298159990915,0.161360446407175,546,214,NA,"P < 0.001","Cliff's δ = 0.16",NA

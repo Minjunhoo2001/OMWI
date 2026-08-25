@@ -1,4 +1,4 @@
-OMHI PCoA batch-effect analysis
+OMWI PCoA batch-effect analysis
 Date:  2026-05-14 11:03:29.443541 
 
 Parameters:

@@ -17,14 +17,14 @@ options(stringsAsFactors = FALSE)
 # =========================================================
 # 0. 路径
 # =========================================================
-OMHI_DIR <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/04.lasso64/omhi_scores"
+OMWI_DIR <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/04.lasso64/omwi_scores"
 OUT_DIR  <- "/share/home/HeMinjun/metagenomic/GitHub/results/Figure4"
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
 
 LEVEL_TO_USE <- "species"
 
-TRAIN_FILE <- file.path(OMHI_DIR, paste0("OMHI_train_", LEVEL_TO_USE, "_alpha050.csv"))
-TEST_FILE  <- file.path(OMHI_DIR, paste0("OMHI_test_",  LEVEL_TO_USE, "_alpha050.csv"))
+TRAIN_FILE <- file.path(OMWI_DIR, paste0("OMWI_train_", LEVEL_TO_USE, "_alpha050.csv"))
+TEST_FILE  <- file.path(OMWI_DIR, paste0("OMWI_test_",  LEVEL_TO_USE, "_alpha050.csv"))
 
 # =========================================================
 # 1. 配色与主题
@@ -104,9 +104,9 @@ p_to_star <- function(p){
 }
 
 # =========================================================
-# 2. 读取 OMHI 数据（train + test）
+# 2. 读取 OMWI 数据（train + test）
 # =========================================================
-read_one_omhi <- function(path, set_name){
+read_one_omwi <- function(path, set_name){
   if (!file.exists(path)) stop("File not found: ", path)
   df <- fread(path, data.table = FALSE, check.names = FALSE)
   df$set <- set_name
@@ -114,17 +114,17 @@ read_one_omhi <- function(path, set_name){
 }
 
 score_df_all <- bind_rows(
-  read_one_omhi(TRAIN_FILE, "train"),
-  read_one_omhi(TEST_FILE,  "test")
+  read_one_omwi(TRAIN_FILE, "train"),
+  read_one_omwi(TEST_FILE,  "test")
 )
 
-need_cols <- c("OMHI", "group", "study_name")
+need_cols <- c("OMWI", "group", "study_name")
 miss_cols <- setdiff(need_cols, colnames(score_df_all))
 if (length(miss_cols) > 0) stop("缺少必要列: ", paste(miss_cols, collapse = ", "))
 
 score_df_all <- score_df_all %>%
   mutate(
-    OMHI = as.numeric(OMHI),
+    OMWI = as.numeric(OMWI),
     group = trimws(as.character(group)),
     study_name = trimws(as.character(study_name)),
     group = case_when(
@@ -133,7 +133,7 @@ score_df_all <- score_df_all %>%
     )
   ) %>%
   filter(
-    !is.na(OMHI),
+    !is.na(OMWI),
     !is.na(group), group != "",
     !is.na(study_name), study_name != ""
   )
@@ -252,9 +252,9 @@ trend_df <- panel_df %>%
   group_by(panel_group, panel_label) %>%
   summarise(
     n = n(),
-    rho = suppressWarnings(cor(stage_num, OMHI, method = "spearman", use = "complete.obs")),
+    rho = suppressWarnings(cor(stage_num, OMWI, method = "spearman", use = "complete.obs")),
     p_trend = tryCatch(
-      suppressWarnings(cor.test(stage_num, OMHI, method = "spearman")$p.value),
+      suppressWarnings(cor.test(stage_num, OMWI, method = "spearman")$p.value),
       error = function(e) NA_real_
     ),
     .groups = "drop"
@@ -289,8 +289,8 @@ comparisons_ra <- list(
 )
 
 plot_violin_one <- function(df_sub, comparisons_list, trend_label){
-  ymax <- max(df_sub$OMHI, na.rm = TRUE)
-  ymin <- min(df_sub$OMHI, na.rm = TRUE)
+  ymax <- max(df_sub$OMWI, na.rm = TRUE)
+  ymin <- min(df_sub$OMWI, na.rm = TRUE)
   yrng <- ymax - ymin
   if (yrng <= 0) yrng <- 1
   
@@ -299,14 +299,14 @@ plot_violin_one <- function(df_sub, comparisons_list, trend_label){
   median_df <- df_sub %>%
     group_by(group_axis) %>%
     summarise(
-      median_OMHI = median(OMHI, na.rm = TRUE),
+      median_OMWI = median(OMWI, na.rm = TRUE),
       .groups = "drop"
     ) %>%
     mutate(
       group_axis = factor(group_axis, levels = levels(df_sub$group_axis))
     )
   
-  ggplot(df_sub, aes(x = group_axis, y = OMHI, fill = group_axis)) +
+  ggplot(df_sub, aes(x = group_axis, y = OMWI, fill = group_axis)) +
     geom_violin(width = 0.88, trim = FALSE, color = NA, alpha = 0.65) +
     geom_violin(
     aes(color = group_axis),
@@ -323,14 +323,14 @@ plot_violin_one <- function(df_sub, comparisons_list, trend_label){
                  linewidth = BORDER_LWD) +
     geom_line(
       data = median_df,
-      aes(x = group_axis, y = median_OMHI, group = 1),
+      aes(x = group_axis, y = median_OMWI, group = 1),
       inherit.aes = FALSE,
       color = BORDER_COL,
       linewidth = BORDER_LWD
     ) +
     geom_point(
       data = median_df,
-      aes(x = group_axis, y = median_OMHI),
+      aes(x = group_axis, y = median_OMWI),
       inherit.aes = FALSE,
       shape = 21,
       fill = "white",
@@ -354,7 +354,7 @@ plot_violin_one <- function(df_sub, comparisons_list, trend_label){
     scale_fill_manual(values = group_fill_map, drop = FALSE) +
     scale_color_manual(values = group_fill_map, drop = FALSE) +
     scale_y_continuous(expand = expansion(mult = c(0.03, 0.24))) +
-    labs(x = NULL, y = "OMHI", title = NULL) +
+    labs(x = NULL, y = "OMWI", title = NULL) +
     theme_cell(10.5) +
     theme(
       legend.position = "none",
@@ -364,7 +364,7 @@ plot_violin_one <- function(df_sub, comparisons_list, trend_label){
 }
 
 # =========================================================
-# 6. 连续型 OR：每下降 1 SD 的 OMHI
+# 6. 连续型 OR：每下降 1 SD 的 OMWI
 # =========================================================
 run_or_vs_healthy <- function(data, case_group, healthy_group = "Healthy", panel_name = NA_character_) {
   
@@ -374,7 +374,7 @@ run_or_vs_healthy <- function(data, case_group, healthy_group = "Healthy", panel
     mutate(
       case = ifelse(as.character(group_axis) == case_group, 1, 0)
     ) %>%
-    filter(!is.na(OMHI), !is.na(case))
+    filter(!is.na(OMWI), !is.na(case))
   
   if (nrow(df) < 10 || length(unique(df$case)) < 2) {
     return(NULL)
@@ -384,14 +384,14 @@ run_or_vs_healthy <- function(data, case_group, healthy_group = "Healthy", panel
   # 注意这里不是 df 里的 Healthy，而是当前 panel data 里的全部 Healthy
   healthy_ref_df <- data %>%
     filter(as.character(group_axis) == healthy_group) %>%
-    filter(!is.na(OMHI))
+    filter(!is.na(OMWI))
   
   if (nrow(healthy_ref_df) < 5) {
     return(NULL)
   }
   
-  healthy_ref_mean <- mean(healthy_ref_df$OMHI, na.rm = TRUE)
-  healthy_ref_sd   <- sd(healthy_ref_df$OMHI, na.rm = TRUE)
+  healthy_ref_mean <- mean(healthy_ref_df$OMWI, na.rm = TRUE)
+  healthy_ref_sd   <- sd(healthy_ref_df$OMWI, na.rm = TRUE)
   
   if (is.na(healthy_ref_sd) || healthy_ref_sd == 0) {
     return(NULL)
@@ -400,22 +400,22 @@ run_or_vs_healthy <- function(data, case_group, healthy_group = "Healthy", panel
   # 用 panel-specific healthy mean/sd 标准化
   df <- df %>%
     mutate(
-      OMHI_drop1sd = -(OMHI - healthy_ref_mean) / healthy_ref_sd
+      OMWI_drop1sd = -(OMWI - healthy_ref_mean) / healthy_ref_sd
     )
   
-  if (all(is.na(df$OMHI_drop1sd))) {
+  if (all(is.na(df$OMWI_drop1sd))) {
     return(NULL)
   }
   
   fit <- tryCatch(
-    glm(case ~ OMHI_drop1sd, data = df, family = binomial()),
+    glm(case ~ OMWI_drop1sd, data = df, family = binomial()),
     error = function(e) NULL
   )
   
   if (is.null(fit)) return(NULL)
   
   res <- broom::tidy(fit, conf.int = TRUE, exponentiate = TRUE) %>%
-    filter(term == "OMHI_drop1sd") %>%
+    filter(term == "OMWI_drop1sd") %>%
     transmute(
       panel_group = panel_name,
       group = case_group,
@@ -577,7 +577,7 @@ plot_or_forest_one <- function(or_df, panel_name, row_order){
     ) +
     
     labs(
-      x = "Odds ratio per 1-SD decrease in OMHI",
+      x = "Odds ratio per 1-SD decrease in OMWI",
       y = NULL,
       subtitle = NULL
     ) +

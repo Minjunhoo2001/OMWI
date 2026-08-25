@@ -1,2 +1,0 @@
-ls: cannot access test_results_env/05.omhi/omhi_scores.tsv: No such file or directory
-head: cannot open ‘test_results_env/05.omhi/omhi_scores.tsv’ for reading: No such file or directory

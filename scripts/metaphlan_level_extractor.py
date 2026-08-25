@@ -15,8 +15,18 @@ def extract_metaphlan_levels(input_file, output_dir):
     # 读取文件，跳过注释行
     df = pd.read_csv(input_file, sep='\t', comment='#')
     
+    # MetaPhlAn merged tables use `clade_name`; some older exports use `ID`.
+    # Fall back to the first column so the extractor remains compatible with
+    # both formats while preserving the original taxon column in its output.
+    taxon_col = next(
+        (name for name in ('clade_name', '#clade_name', 'ID') if name in df.columns),
+        df.columns[0] if len(df.columns) else None,
+    )
+    if taxon_col is None:
+        raise ValueError('输入表为空或缺少分类名称列')
+
     # 计算分类层级深度
-    df['level'] = df['ID'].str.count(r'\|') + 1
+    df['level'] = df[taxon_col].astype(str).str.count(r'\|') + 1
     
     # 定义层级标签
     level_labels = {

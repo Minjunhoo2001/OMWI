@@ -1,6 +1,6 @@
 # ============================================================
 # plot_utils.R
-# Plotting utilities for OMHI PCoA analyses
+# Plotting utilities for OMWI PCoA analyses
 # ============================================================
 
 suppressPackageStartupMessages({

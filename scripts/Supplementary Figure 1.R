@@ -1,6 +1,6 @@
 # ============================================================
 # Script: pcoa_batch_effect_train_species.R
-# Project: Oral Microbiome Health Index (OMHI)
+# Project: Oral Microbiome Health Index (OMWI)
 #
 # Purpose:
 #   Evaluate study-level batch effects before and after batch
@@ -82,10 +82,10 @@ meta_file <- file.path(META_DIR, "meta_train.csv")
 raw_file <- file.path(RAW_DIR, paste0("train_", LEVEL, ".tsv"))
 adj_file <- file.path(BATCH_DIR, paste0("train_", LEVEL, ".batch.normal.tsv"))
 
-message("[OMHI] Metadata: ", meta_file)
-message("[OMHI] Raw abundance table: ", raw_file)
-message("[OMHI] Batch-corrected table: ", adj_file)
-message("[OMHI] Output directory: ", OUT_DIR)
+message("[OMWI] Metadata: ", meta_file)
+message("[OMWI] Raw abundance table: ", raw_file)
+message("[OMWI] Batch-corrected table: ", adj_file)
+message("[OMWI] Output directory: ", OUT_DIR)
 
 meta <- read_metadata(
   meta_file,
@@ -120,9 +120,9 @@ meta_use[[SYSTEM_VAR]] <- order_binary_factor(
   first_levels = c("Healthy")
 )
 
-message("[OMHI] Samples used: ", ncol(raw_mat))
-message("[OMHI] Raw features used: ", nrow(raw_mat))
-message("[OMHI] Adjusted features used: ", nrow(adj_mat))
+message("[OMWI] Samples used: ", ncol(raw_mat))
+message("[OMWI] Raw features used: ", nrow(raw_mat))
+message("[OMWI] Adjusted features used: ", nrow(adj_mat))
 
 sample_summary <- data.frame(
   level = LEVEL,
@@ -301,7 +301,7 @@ save_pdf_png(
 # ============================================================
 
 sink(file.path(OUT_DIR, "logs", paste0("sessionInfo_", LEVEL, "_pcoa.txt")))
-cat("OMHI PCoA batch-effect analysis\n")
+cat("OMWI PCoA batch-effect analysis\n")
 cat("Date: ", as.character(Sys.time()), "\n\n")
 cat("Parameters:\n")
 print(args)
@@ -309,5 +309,5 @@ cat("\nSession info:\n")
 print(sessionInfo())
 sink()
 
-message("[OMHI] Analysis completed.")
-message("[OMHI] Results written to: ", OUT_DIR)
+message("[OMWI] Analysis completed.")
+message("[OMWI] Results written to: ", OUT_DIR)

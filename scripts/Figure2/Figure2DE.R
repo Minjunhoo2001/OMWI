@@ -12,8 +12,8 @@ suppressPackageStartupMessages({
 # =========================================================
 loocv_file <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/04.lasso64/loocv_oof/OOF_LOOCV_species_alpha050_best_model.csv"
 cv_file    <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/04.lasso64/cv_oof/OOF_10fold_repeated_species_alpha050_best_model.csv"
-train_file <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/04.lasso64/omhi_scores/OMHI_train_species_alpha050.csv"
-validation_file <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/04.lasso64/omhi_scores/OMHI_test_species_alpha050.csv"
+train_file <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/04.lasso64/omwi_scores/OMWI_train_species_alpha050.csv"
+validation_file <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/04.lasso64/omwi_scores/OMWI_test_species_alpha050.csv"
 
 out_dir <- "/share/home/HeMinjun/metagenomic/GitHub/results/Figure2"
 dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
@@ -26,11 +26,11 @@ read_and_standardize <- function(file, dataset_name) {
     transmute(
       sample_id = as.character(sample_id),
       y_healthy = as.numeric(y_healthy),
-      OMHI = as.numeric(OMHI),
+      OMWI = as.numeric(OMWI),
       prob_healthy = suppressWarnings(as.numeric(prob_healthy)),
       dataset = dataset_name
     ) %>%
-    filter(!is.na(sample_id), !is.na(y_healthy), !is.na(OMHI))
+    filter(!is.na(sample_id), !is.na(y_healthy), !is.na(OMWI))
 }
 
 collapse_duplicate_samples <- function(df) {
@@ -42,7 +42,7 @@ collapse_duplicate_samples <- function(df) {
     group_by(sample_id) %>%
     summarise(
       y_healthy = first(y_healthy),
-      OMHI = mean(OMHI, na.rm = TRUE),
+      OMWI = mean(OMWI, na.rm = TRUE),
       prob_healthy = mean(prob_healthy, na.rm = TRUE),
       dataset = first(dataset),
       .groups = "drop"
@@ -51,7 +51,7 @@ collapse_duplicate_samples <- function(df) {
 
 calc_cutoff_metrics <- function(df, cutoff, dataset_name) {
   sub <- df %>%
-    filter(abs(OMHI) >= cutoff)
+    filter(abs(OMWI) >= cutoff)
 
   if (nrow(sub) == 0) {
     return(tibble(
@@ -62,7 +62,7 @@ calc_cutoff_metrics <- function(df, cutoff, dataset_name) {
   }
 
   sub <- sub %>%
-    mutate(pred_healthy = ifelse(OMHI > 0, 1, 0))
+    mutate(pred_healthy = ifelse(OMWI > 0, 1, 0))
 
   healthy_dat <- sub %>% filter(y_healthy == 1)
   disease_dat <- sub %>% filter(y_healthy == 0)
@@ -97,7 +97,7 @@ make_panel_a_data <- function(df, breaks, labels) {
     mutate(
       dataset = "Overall",
       bin = cut(
-        OMHI,
+        OMWI,
         breaks = breaks,
         labels = labels,
         right = FALSE,
@@ -145,7 +145,7 @@ metrics_df <- bind_rows(
   mutate(dataset = factor(dataset, levels = c("Training", "LOOCV", "10-fold CV")))
 
 # =========================================================
-# 4. Panel A: sample proportion by OMHI bin
+# 4. Panel A: sample proportion by OMWI bin
 # =========================================================
 breaks_train <- c(-Inf, -2, -1.5, -1, -0.5, 0, 0.5, 1, Inf)
 labels_train <- c(
@@ -176,7 +176,7 @@ p_A <- ggplot(panelA_train, aes(x = bin, y = prop, fill = health_status)) +
   labs(
     title = "Overall",
     x = NULL,
-    y = "Sample proportion by OMHI bin",
+    y = "Sample proportion by OMWI bin",
     fill = NULL
   ) +
   theme_bw(base_size = 13) +
@@ -196,7 +196,7 @@ p_A <- ggplot(panelA_train, aes(x = bin, y = prop, fill = health_status)) +
 print(p_A)
 
 # =========================================================
-# 5. Panel B: balanced accuracy by OMHI magnitude cutoff
+# 5. Panel B: balanced accuracy by OMWI magnitude cutoff
 # =========================================================
 p_B <- ggplot(metrics_df, aes(x = cutoff, y = balanced_acc, group = 1)) +
   geom_line(color = "#00A087", linewidth = 1.0) +
@@ -217,7 +217,7 @@ p_B <- ggplot(metrics_df, aes(x = cutoff, y = balanced_acc, group = 1)) +
     expand = expansion(mult = c(0.02, 0.08))
   ) +
   labs(
-    x = expression("|OMHI| cutoff"),
+    x = expression("|OMWI| cutoff"),
     title = NULL
   ) +
   theme_bw(base_size = 13) +

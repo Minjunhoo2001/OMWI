@@ -1,10 +1,10 @@
 
 # =========================================================
-# Focused analysis of OMHI and host/lifestyle variables
+# Focused analysis of OMWI and host/lifestyle variables
 # Train + test version.
 # Final output in this script:
-#   1) Overall OMHI violin plots
-#   2) OR forest plots for OMHI < 0
+#   1) Overall OMWI violin plots
+#   2) OR forest plots for OMWI < 0
 #   3) Healthy vs disease comparisons stratified by smoking, age, and BMI
 #   4) A 3 x 3 combined figure arranged as:
 #      smoking row, age row, and BMI row
@@ -34,7 +34,7 @@ options(stringsAsFactors = FALSE)
 ROOT_DIR <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2"
 
 SPLIT_DIR <- file.path(ROOT_DIR, "01.split64")
-OMHI_DIR  <- file.path(ROOT_DIR, "04.lasso64", "omhi_scores")
+OMWI_DIR  <- file.path(ROOT_DIR, "04.lasso64", "omwi_scores")
 
 OUT_DIR   <- "/share/home/HeMinjun/metagenomic/GitHub/results/Supplementary_Figure_3"
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
@@ -44,7 +44,7 @@ dir.create(file.path(OUT_DIR, "plots_focus", "OR"), showWarnings = FALSE, recurs
 dir.create(file.path(OUT_DIR, "plots_focus", "stratified"), showWarnings = FALSE, recursive = TRUE)
 
 LEVEL_USE <- "species"
-OMHI_COL  <- "OMHI"
+OMWI_COL  <- "OMWI"
 
 MIN_N_CONT    <- 30
 MIN_N_CAT     <- 20
@@ -124,7 +124,7 @@ is_probably_numeric <- function(x) {
   mean(!is.na(x2)) > 0.8
 }
 
-theme_omhi_clean <- function(base_size = 10.5) {
+theme_omwi_clean <- function(base_size = 10.5) {
   theme_classic(base_size = base_size) +
     theme(
       legend.position = "none",
@@ -284,19 +284,19 @@ make_n_axis_labels <- function(sub, group_col = "group") {
 # 1.1 Statistical helper functions
 # =========================================================
 get_overall_p <- function(sub) {
-  sub <- sub %>% filter(!is.na(group), !is.na(OMHI))
+  sub <- sub %>% filter(!is.na(group), !is.na(OMWI))
   if (nlevels(droplevels(sub$group)) < 2) return(NA_real_)
   
   if (nlevels(droplevels(sub$group)) == 2) {
-    out <- tryCatch(wilcox.test(OMHI ~ group, data = sub)$p.value, error = function(e) NA_real_)
+    out <- tryCatch(wilcox.test(OMWI ~ group, data = sub)$p.value, error = function(e) NA_real_)
   } else {
-    out <- tryCatch(kruskal.test(OMHI ~ group, data = sub)$p.value, error = function(e) NA_real_)
+    out <- tryCatch(kruskal.test(OMWI ~ group, data = sub)$p.value, error = function(e) NA_real_)
   }
   out
 }
 
 get_overall_effect <- function(sub) {
-  sub <- sub %>% filter(!is.na(group), !is.na(OMHI))
+  sub <- sub %>% filter(!is.na(group), !is.na(OMWI))
   sub$group <- droplevels(factor(sub$group))
   k <- nlevels(sub$group)
   n <- nrow(sub)
@@ -305,7 +305,7 @@ get_overall_effect <- function(sub) {
   
   if (k == 2) {
     eff <- tryCatch({
-      rstatix::wilcox_effsize(sub, OMHI ~ group)
+      rstatix::wilcox_effsize(sub, OMWI ~ group)
     }, error = function(e) NULL)
     
     if (is.null(eff) || nrow(eff) == 0) {
@@ -325,7 +325,7 @@ get_overall_effect <- function(sub) {
     ))
   }
   
-  kr <- tryCatch(kruskal.test(OMHI ~ group, data = sub), error = function(e) NULL)
+  kr <- tryCatch(kruskal.test(OMWI ~ group, data = sub), error = function(e) NULL)
   if (is.null(kr)) {
     return(tibble(
       effect_type = "epsilon_squared",
@@ -347,7 +347,7 @@ get_overall_effect <- function(sub) {
   )
 }
 
-get_pairwise_p <- function(sub, group_col = "group", value_col = "OMHI") {
+get_pairwise_p <- function(sub, group_col = "group", value_col = "OMWI") {
   sub <- sub %>% filter(!is.na(.data[[group_col]]), !is.na(.data[[value_col]]))
   if (n_distinct(sub[[group_col]]) < 2) return(NULL)
   
@@ -362,7 +362,7 @@ get_pairwise_p <- function(sub, group_col = "group", value_col = "OMHI") {
   pw
 }
 
-get_pairwise_effect <- function(sub, group_col = "group", value_col = "OMHI") {
+get_pairwise_effect <- function(sub, group_col = "group", value_col = "OMWI") {
   sub <- sub %>%
     filter(!is.na(.data[[group_col]]), !is.na(.data[[value_col]])) %>%
     mutate(group_tmp = factor(.data[[group_col]]))
@@ -413,17 +413,17 @@ get_pairwise_effect <- function(sub, group_col = "group", value_col = "OMHI") {
 }
 
 # =========================================================
-# 1.2 OR functions: outcome is OMHI < 0
+# 1.2 OR functions: outcome is OMWI < 0
 # =========================================================
 fit_or_by_variable_binary <- function(dat, var, ref_level = NULL, outcome_type = c("lt0")) {
   outcome_type <- match.arg(outcome_type)
-  if (!all(c(var, "OMHI") %in% colnames(dat))) return(NULL)
+  if (!all(c(var, "OMWI") %in% colnames(dat))) return(NULL)
   
   sub <- dat %>%
-    dplyr::select(sample_id, OMHI, all_of(var)) %>%
-    dplyr::filter(!is.na(OMHI), !is.na(.data[[var]])) %>%
+    dplyr::select(sample_id, OMWI, all_of(var)) %>%
+    dplyr::filter(!is.na(OMWI), !is.na(.data[[var]])) %>%
     dplyr::mutate(
-      outcome = ifelse(OMHI < 0, 1, 0),
+      outcome = ifelse(OMWI < 0, 1, 0),
       group = as.character(.data[[var]])
     )
   
@@ -496,7 +496,7 @@ plot_or_forest_binary <- function(or_df, var_label = NULL, out_file = NULL, outc
   if (is.null(or_df) || nrow(or_df) == 0) return(NULL)
   if (is.null(var_label)) var_label <- unique(or_df$variable)[1]
   
-  x_title <- "Odds ratio for OMHI < 0 (95% CI)"
+  x_title <- "Odds ratio for OMWI < 0 (95% CI)"
   
   group_levels <- unique(or_df$group)
   group_levels <- group_levels[!is.na(group_levels)]
@@ -562,7 +562,7 @@ plot_or_forest_binary <- function(or_df, var_label = NULL, out_file = NULL, outc
       y = NULL
     ) +
     coord_cartesian(xlim = c(NA, x_star_right * 1.05), clip = "off") +
-    theme_omhi_clean() +
+    theme_omwi_clean() +
     theme(
       axis.text.y = element_text(color = "black"),
       axis.text.x = element_text(color = "black"),
@@ -595,49 +595,49 @@ if (!"sample_id" %in% colnames(meta_all)) {
 }
 
 # =========================================================
-# 3. Read OMHI scores; keep train and test samples only
+# 3. Read OMWI scores; keep train and test samples only
 # =========================================================
-omhi_train_file <- file.path(OMHI_DIR, paste0("OMHI_train_", LEVEL_USE, "_alpha050.csv"))
-omhi_test_file  <- file.path(OMHI_DIR, paste0("OMHI_test_", LEVEL_USE, "_alpha050.csv"))
+omwi_train_file <- file.path(OMWI_DIR, paste0("OMWI_train_", LEVEL_USE, "_alpha050.csv"))
+omwi_test_file  <- file.path(OMWI_DIR, paste0("OMWI_test_", LEVEL_USE, "_alpha050.csv"))
 
-if (!file.exists(omhi_train_file)) stop("Missing file: ", omhi_train_file)
-if (!file.exists(omhi_test_file))  stop("Missing file: ", omhi_test_file)
+if (!file.exists(omwi_train_file)) stop("Missing file: ", omwi_train_file)
+if (!file.exists(omwi_test_file))  stop("Missing file: ", omwi_test_file)
 
-omhi_train <- fread(omhi_train_file, data.table = FALSE, check.names = FALSE)
-omhi_test  <- fread(omhi_test_file,  data.table = FALSE, check.names = FALSE)
+omwi_train <- fread(omwi_train_file, data.table = FALSE, check.names = FALSE)
+omwi_test  <- fread(omwi_test_file,  data.table = FALSE, check.names = FALSE)
 
-omhi_train$dataset_split <- "train"
-omhi_test$dataset_split  <- "test"
+omwi_train$dataset_split <- "train"
+omwi_test$dataset_split  <- "test"
 
-omhi_all <- bind_rows(omhi_train, omhi_test)
+omwi_all <- bind_rows(omwi_train, omwi_test)
 
-if (!"sample_id_use" %in% colnames(omhi_all)) {
-  stop("Cannot find sample_id_use column in OMHI files.")
+if (!"sample_id_use" %in% colnames(omwi_all)) {
+  stop("Cannot find sample_id_use column in OMWI files.")
 }
-if (!(OMHI_COL %in% colnames(omhi_all))) {
-  stop("Cannot find OMHI column: ", OMHI_COL)
+if (!(OMWI_COL %in% colnames(omwi_all))) {
+  stop("Cannot find OMWI column: ", OMWI_COL)
 }
 
-omhi_all <- omhi_all %>%
+omwi_all <- omwi_all %>%
   mutate(sample_id = as.character(sample_id_use)) %>%
-  select(sample_id, dataset_split, all_of(OMHI_COL), everything())
+  select(sample_id, dataset_split, all_of(OMWI_COL), everything())
 
 # =========================================================
-# 4. Merge metadata with OMHI scores
+# 4. Merge metadata with OMWI scores
 # =========================================================
 dat <- meta_all %>%
   mutate(sample_id = as.character(sample_id)) %>%
   left_join(
-    omhi_all %>% select(sample_id, OMHI = all_of(OMHI_COL), prob_healthy, level, prev_cutoff),
+    omwi_all %>% select(sample_id, OMWI = all_of(OMWI_COL), prob_healthy, level, prev_cutoff),
     by = "sample_id"
   )
 
-if (all(is.na(dat$OMHI))) {
-  stop("All OMHI values are NA after merging. Please check sample_id consistency.")
+if (all(is.na(dat$OMWI))) {
+  stop("All OMWI values are NA after merging. Please check sample_id consistency.")
 }
 
-dat$OMHI <- safe_numeric(dat$OMHI)
-dat$OMHI_low <- ifelse(!is.na(dat$OMHI) & dat$OMHI < 0, 1, ifelse(!is.na(dat$OMHI), 0, NA))
+dat$OMWI <- safe_numeric(dat$OMWI)
+dat$OMWI_low <- ifelse(!is.na(dat$OMWI) & dat$OMWI < 0, 1, ifelse(!is.na(dat$OMWI), 0, NA))
 
 # =========================================================
 # 5. Preprocess key variables
@@ -906,17 +906,17 @@ focus_categorical_vars <- unique(c(focus_categorical_vars, prior_cat_vars))
 # 7. Overall violin plot function
 # =========================================================
 plot_group_violin <- function(sub, var, xlab = var, out_file = NULL) {
-  sub <- sub %>% filter(!is.na(group), !is.na(OMHI))
+  sub <- sub %>% filter(!is.na(group), !is.na(OMWI))
   sub$group <- droplevels(factor(sub$group))
   
   n_grp <- nlevels(sub$group)
   if (n_grp < 2) return(NULL)
   
   pal <- get_manual_palette_for_var(sub, var)
-  pw <- get_pairwise_p(sub, group_col = "group", value_col = "OMHI")
+  pw <- get_pairwise_p(sub, group_col = "group", value_col = "OMWI")
   
   trend_p <- tryCatch(
-    suppressWarnings(cor.test(as.numeric(sub$group), sub$OMHI, method = "spearman")$p.value),
+    suppressWarnings(cor.test(as.numeric(sub$group), sub$OMWI, method = "spearman")$p.value),
     error = function(e) NA_real_
   )
   trend_lab <- fmt_trend_label(trend_p)
@@ -925,15 +925,15 @@ plot_group_violin <- function(sub, var, xlab = var, out_file = NULL) {
   
   median_df <- sub %>%
     group_by(group) %>%
-    summarise(median_OMHI = median(OMHI, na.rm = TRUE), .groups = "drop") %>%
+    summarise(median_OMWI = median(OMWI, na.rm = TRUE), .groups = "drop") %>%
     mutate(group = factor(group, levels = levels(sub$group)))
   
-  y_max <- max(sub$OMHI, na.rm = TRUE)
-  y_min <- min(sub$OMHI, na.rm = TRUE)
+  y_max <- max(sub$OMWI, na.rm = TRUE)
+  y_min <- min(sub$OMWI, na.rm = TRUE)
   y_rng <- y_max - y_min
   if (is.na(y_rng) || y_rng == 0) y_rng <- 0.2
   
-  p <- ggplot(sub, aes(x = group, y = OMHI, fill = group, color = group)) +
+  p <- ggplot(sub, aes(x = group, y = OMWI, fill = group, color = group)) +
     geom_violin(width = 0.88, trim = FALSE, color = NA, alpha = 0.7) +
     geom_jitter(width = 0.06, size = 0.9, alpha = 0.5, show.legend = FALSE) +
     geom_boxplot(
@@ -945,14 +945,14 @@ plot_group_violin <- function(sub, var, xlab = var, out_file = NULL) {
     ) +
     geom_line(
       data = median_df,
-      aes(x = group, y = median_OMHI, group = 1),
+      aes(x = group, y = median_OMWI, group = 1),
       inherit.aes = FALSE,
       color = "black",
       linewidth = 0.75
     ) +
     geom_point(
       data = median_df,
-      aes(x = group, y = median_OMHI),
+      aes(x = group, y = median_OMWI),
       inherit.aes = FALSE,
       shape = 21,
       fill = "white",
@@ -968,7 +968,7 @@ plot_group_violin <- function(sub, var, xlab = var, out_file = NULL) {
       title = NULL,
       subtitle = NULL,
       x = xlab,
-      y = "OMHI"
+      y = "OMWI"
     ) +
     annotate(
       "text",
@@ -977,7 +977,7 @@ plot_group_violin <- function(sub, var, xlab = var, out_file = NULL) {
       hjust = 1.03, vjust = 1.2,
       size = 3.2
     ) +
-    theme_omhi_clean() +
+    theme_omwi_clean() +
     theme(
       axis.text.x = element_text(
         color = "black",
@@ -1122,14 +1122,14 @@ add_panel_title <- function(p, title) {
 }
 
 # =========================================================
-# 8.1 Stratified healthy vs disease OMHI comparison
+# 8.1 Stratified healthy vs disease OMWI comparison
 # =========================================================
 plot_stratified_health_comparison <- function(dat, strat_var, strat_label, out_prefix = NULL) {
-  if (!all(c("sample_id", "OMHI", "health01", strat_var) %in% colnames(dat))) return(NULL)
+  if (!all(c("sample_id", "OMWI", "health01", strat_var) %in% colnames(dat))) return(NULL)
   
   sub <- dat %>%
-    dplyr::select(sample_id, OMHI, health01, stratum = all_of(strat_var)) %>%
-    dplyr::filter(!is.na(OMHI), !is.na(health01), !is.na(stratum)) %>%
+    dplyr::select(sample_id, OMWI, health01, stratum = all_of(strat_var)) %>%
+    dplyr::filter(!is.na(OMWI), !is.na(health01), !is.na(stratum)) %>%
     dplyr::mutate(
       health01 = factor(as.character(health01), levels = c("Healthy", "Disease")),
       stratum = factor(as.character(stratum), levels = unique(as.character(stratum)))
@@ -1158,19 +1158,19 @@ plot_stratified_health_comparison <- function(dat, strat_var, strat_label, out_p
     dplyr::group_modify(~ {
       tmp <- .x %>% dplyr::mutate(health01 = droplevels(health01))
       p_val <- tryCatch(
-        wilcox.test(OMHI ~ health01, data = tmp)$p.value,
+        wilcox.test(OMWI ~ health01, data = tmp)$p.value,
         error = function(e) NA_real_
       )
       eff <- tryCatch(
-        rstatix::wilcox_effsize(tmp, OMHI ~ health01),
+        rstatix::wilcox_effsize(tmp, OMWI ~ health01),
         error = function(e) NULL
       )
-      med_healthy <- median(tmp$OMHI[tmp$health01 == "Healthy"], na.rm = TRUE)
-      med_disease <- median(tmp$OMHI[tmp$health01 == "Disease"], na.rm = TRUE)
-      q1_healthy <- quantile(tmp$OMHI[tmp$health01 == "Healthy"], 0.25, na.rm = TRUE, names = FALSE)
-      q3_healthy <- quantile(tmp$OMHI[tmp$health01 == "Healthy"], 0.75, na.rm = TRUE, names = FALSE)
-      q1_disease <- quantile(tmp$OMHI[tmp$health01 == "Disease"], 0.25, na.rm = TRUE, names = FALSE)
-      q3_disease <- quantile(tmp$OMHI[tmp$health01 == "Disease"], 0.75, na.rm = TRUE, names = FALSE)
+      med_healthy <- median(tmp$OMWI[tmp$health01 == "Healthy"], na.rm = TRUE)
+      med_disease <- median(tmp$OMWI[tmp$health01 == "Disease"], na.rm = TRUE)
+      q1_healthy <- quantile(tmp$OMWI[tmp$health01 == "Healthy"], 0.25, na.rm = TRUE, names = FALSE)
+      q3_healthy <- quantile(tmp$OMWI[tmp$health01 == "Healthy"], 0.75, na.rm = TRUE, names = FALSE)
+      q1_disease <- quantile(tmp$OMWI[tmp$health01 == "Disease"], 0.25, na.rm = TRUE, names = FALSE)
+      q3_disease <- quantile(tmp$OMWI[tmp$health01 == "Disease"], 0.75, na.rm = TRUE, names = FALSE)
       tibble(
         n_healthy = sum(tmp$health01 == "Healthy"),
         n_disease = sum(tmp$health01 == "Disease"),
@@ -1233,7 +1233,7 @@ plot_stratified_health_comparison <- function(dat, strat_var, strat_label, out_p
   n_strata <- dplyr::n_distinct(sub$stratum)
   plot_width <- max(2.8, 2.1 * n_strata)
   
-  p <- ggplot(sub, aes(x = health01, y = OMHI, fill = health01, color = health01)) +
+  p <- ggplot(sub, aes(x = health01, y = OMWI, fill = health01, color = health01)) +
     geom_violin(width = 0.82, trim = FALSE, color = NA, alpha = 0.72) +
     geom_jitter(width = 0.06, size = 0.75, alpha = 0.45, show.legend = FALSE) +
     geom_boxplot(
@@ -1260,9 +1260,9 @@ plot_stratified_health_comparison <- function(dat, strat_var, strat_label, out_p
       title = NULL,
       subtitle = NULL,
       x = strat_label,
-      y = "OMHI"
+      y = "OMWI"
     ) +
-    theme_omhi_clean(base_size = 10) +
+    theme_omwi_clean(base_size = 10) +
     theme(
       axis.text.x = element_text(color = "black", angle = 25, hjust = 1, vjust = 1),
       plot.title = element_blank(),
@@ -1295,8 +1295,8 @@ run_categorical_block <- function(dat, var, plot_label = var, xlab = var, out_st
   if (!var %in% colnames(dat)) return(NULL)
   
   sub <- dat %>%
-    select(sample_id, OMHI, all_of(var)) %>%
-    filter(!is.na(OMHI), !is.na(.data[[var]])) %>%
+    select(sample_id, OMWI, all_of(var)) %>%
+    filter(!is.na(OMWI), !is.na(.data[[var]])) %>%
     mutate(group = .data[[var]])
   
   grp_tab <- table(sub$group)
@@ -1313,10 +1313,10 @@ run_categorical_block <- function(dat, var, plot_label = var, xlab = var, out_st
     group_by(group) %>%
     summarise(
       n = n(),
-      median_OMHI = median(OMHI, na.rm = TRUE),
-      IQR_OMHI = IQR(OMHI, na.rm = TRUE),
-      mean_OMHI = mean(OMHI, na.rm = TRUE),
-      sd_OMHI = sd(OMHI, na.rm = TRUE),
+      median_OMWI = median(OMWI, na.rm = TRUE),
+      IQR_OMWI = IQR(OMWI, na.rm = TRUE),
+      mean_OMWI = mean(OMWI, na.rm = TRUE),
+      sd_OMWI = sd(OMWI, na.rm = TRUE),
       .groups = "drop"
     ) %>%
     mutate(variable = var)
@@ -1369,8 +1369,8 @@ run_categorical_block(
 
 if ("BMI_group" %in% colnames(dat)) {
   sub <- dat %>%
-    select(sample_id, OMHI, BMI, BMI_group) %>%
-    filter(!is.na(OMHI), !is.na(BMI_group)) %>%
+    select(sample_id, OMWI, BMI, BMI_group) %>%
+    filter(!is.na(OMWI), !is.na(BMI_group)) %>%
     mutate(group = BMI_group)
   
   grp_tab <- table(sub$group)
@@ -1388,10 +1388,10 @@ if ("BMI_group" %in% colnames(dat)) {
       group_by(group) %>%
       summarise(
         n = n(),
-        median_OMHI = median(OMHI, na.rm = TRUE),
-        IQR_OMHI = IQR(OMHI, na.rm = TRUE),
-        mean_OMHI = mean(OMHI, na.rm = TRUE),
-        sd_OMHI = sd(OMHI, na.rm = TRUE),
+        median_OMWI = median(OMWI, na.rm = TRUE),
+        IQR_OMWI = IQR(OMWI, na.rm = TRUE),
+        mean_OMWI = mean(OMWI, na.rm = TRUE),
+        sd_OMWI = sd(OMWI, na.rm = TRUE),
         .groups = "drop"
       ) %>%
       mutate(variable = "BMI_group")
@@ -1422,8 +1422,8 @@ if ("BMI_group" %in% colnames(dat)) {
 
 if ("age_group" %in% colnames(dat)) {
   sub <- dat %>%
-    select(sample_id, OMHI, age_num_strict, age_group) %>%
-    filter(!is.na(OMHI), !is.na(age_num_strict), !is.na(age_group)) %>%
+    select(sample_id, OMWI, age_num_strict, age_group) %>%
+    filter(!is.na(OMWI), !is.na(age_num_strict), !is.na(age_group)) %>%
     mutate(group = age_group)
   
   grp_tab <- table(sub$group)
@@ -1441,10 +1441,10 @@ if ("age_group" %in% colnames(dat)) {
       group_by(group) %>%
       summarise(
         n = n(),
-        median_OMHI = median(OMHI, na.rm = TRUE),
-        IQR_OMHI = IQR(OMHI, na.rm = TRUE),
-        mean_OMHI = mean(OMHI, na.rm = TRUE),
-        sd_OMHI = sd(OMHI, na.rm = TRUE),
+        median_OMWI = median(OMWI, na.rm = TRUE),
+        IQR_OMWI = IQR(OMWI, na.rm = TRUE),
+        mean_OMWI = mean(OMWI, na.rm = TRUE),
+        sd_OMWI = sd(OMWI, na.rm = TRUE),
         .groups = "drop"
       ) %>%
       mutate(variable = "age_group")
@@ -1483,9 +1483,9 @@ run_categorical_block(
 
 for (v in setdiff(prior_cat_vars, c("smoker", "H_pylori_status", "BMI_group", "age_group", "gender"))) {
   sub <- dat %>%
-    select(sample_id, OMHI, all_of(v)) %>%
+    select(sample_id, OMWI, all_of(v)) %>%
     mutate(group = as.character(.data[[v]])) %>%
-    filter(!is.na(OMHI), !is.na(group), group != "")
+    filter(!is.na(OMWI), !is.na(group), group != "")
   
   if (nrow(sub) < MIN_N_CAT) next
   
@@ -1506,10 +1506,10 @@ for (v in setdiff(prior_cat_vars, c("smoker", "H_pylori_status", "BMI_group", "a
     group_by(group) %>%
     summarise(
       n = n(),
-      median_OMHI = median(OMHI, na.rm = TRUE),
-      IQR_OMHI = IQR(OMHI, na.rm = TRUE),
-      mean_OMHI = mean(OMHI, na.rm = TRUE),
-      sd_OMHI = sd(OMHI, na.rm = TRUE),
+      median_OMWI = median(OMWI, na.rm = TRUE),
+      IQR_OMWI = IQR(OMWI, na.rm = TRUE),
+      mean_OMWI = mean(OMWI, na.rm = TRUE),
+      sd_OMWI = sd(OMWI, na.rm = TRUE),
       .groups = "drop"
     ) %>%
     mutate(variable = v)
@@ -1538,7 +1538,7 @@ for (v in setdiff(prior_cat_vars, c("smoker", "H_pylori_status", "BMI_group", "a
 }
 
 # =========================================================
-# 12. Output overall violin plots, OMHI < 0 OR plots, and paired layouts
+# 12. Output overall violin plots, OMWI < 0 OR plots, and paired layouts
 # =========================================================
 or_vars <- unique(c(
   "smoker", "H_pylori_status", "BMI_group", "age_group", "gender",
@@ -1568,8 +1568,8 @@ for (v in or_vars) {
   
   # -------- Overall violin plot --------
   sub_violin <- dat %>%
-    dplyr::select(sample_id, OMHI, all_of(v)) %>%
-    dplyr::filter(!is.na(OMHI), !is.na(.data[[v]])) %>%
+    dplyr::select(sample_id, OMWI, all_of(v)) %>%
+    dplyr::filter(!is.na(OMWI), !is.na(.data[[v]])) %>%
     dplyr::mutate(group = .data[[v]])
   
   grp_tab <- table(sub_violin$group)
@@ -1609,7 +1609,7 @@ for (v in or_vars) {
     )
   )
   
-  # -------- OR plot: OMHI < 0 only --------
+  # -------- OR plot: OMWI < 0 only --------
   or_df <- fit_or_by_variable_binary(
     dat = dat,
     var = v,
@@ -1708,7 +1708,7 @@ if (length(stratified_plot_list) > 0) {
     )
   
   ggsave(
-    filename = file.path(OUT_DIR, "plots_focus", "stratified", "stratified_healthy_vs_disease_OMHI.png"),
+    filename = file.path(OUT_DIR, "plots_focus", "stratified", "stratified_healthy_vs_disease_OMWI.png"),
     plot = stratified_combined,
     width = 5,
     height = 7,
@@ -1717,7 +1717,7 @@ if (length(stratified_plot_list) > 0) {
     bg = "white"
   )
   ggsave(
-    filename = file.path(OUT_DIR, "plots_focus", "stratified", "stratified_healthy_vs_disease_OMHI.pdf"),
+    filename = file.path(OUT_DIR, "plots_focus", "stratified", "stratified_healthy_vs_disease_OMWI.pdf"),
     plot = stratified_combined,
     width = 5,
     height = 7,
@@ -1732,11 +1732,11 @@ if (length(stratified_plot_list) > 0) {
 # =========================================================
 combined_9panel_specs <- list(
   list(key = "smoking", overall = "smoker", stratified = "smoking", or = "smoker",
-       titles = c("Smoking: overall OMHI trend", "Smoking: disease comparison by smoking", "Smoking: OR")),
+       titles = c("Smoking: overall OMWI trend", "Smoking: disease comparison by smoking", "Smoking: OR")),
   list(key = "age", overall = "age_group", stratified = "age", or = "age_group",
-       titles = c("Age: overall OMHI trend", "Age: disease comparison by age", "Age: OR")),
+       titles = c("Age: overall OMWI trend", "Age: disease comparison by age", "Age: OR")),
   list(key = "BMI", overall = "BMI_group", stratified = "BMI", or = "BMI_group",
-       titles = c("BMI: overall OMHI trend", "BMI: disease comparison by BMI", "BMI: OR"))
+       titles = c("BMI: overall OMWI trend", "BMI: disease comparison by BMI", "BMI: OR"))
 )
 
 combined_9panel_list <- list()
@@ -1771,7 +1771,7 @@ if (length(combined_9panel_list) == 9) {
     )
 
   ggsave(
-    filename = file.path(OUT_DIR, "plots_focus", "host_lifestyle_OMHI_3x3.png"),
+    filename = file.path(OUT_DIR, "plots_focus", "host_lifestyle_OMWI_3x3.png"),
     plot = combined_9panel,
     width = 13.5,
     height = 10.5,
@@ -1780,7 +1780,7 @@ if (length(combined_9panel_list) == 9) {
     bg = "white"
   )
   ggsave(
-    filename = file.path(OUT_DIR, "plots_focus", "host_lifestyle_OMHI_3x3.pdf"),
+    filename = file.path(OUT_DIR, "plots_focus", "host_lifestyle_OMWI_3x3.pdf"),
     plot = combined_9panel,
     width = 13.5,
     height = 10.5,
@@ -1815,21 +1815,21 @@ if (nrow(focus_pairwise_df) > 0) {
 }
 
 if (nrow(or_df_all) > 0) {
-  write_csv(or_df_all, file.path(OUT_DIR, "08g_OR_OMHI_lt0_by_variable.csv"))
+  write_csv(or_df_all, file.path(OUT_DIR, "08g_OR_OMWI_lt0_by_variable.csv"))
 }
 
 if (nrow(stratified_stats_df) > 0) {
-  write_csv(stratified_stats_df, file.path(OUT_DIR, "08h_stratified_healthy_vs_disease_OMHI_tests.csv"))
+  write_csv(stratified_stats_df, file.path(OUT_DIR, "08h_stratified_healthy_vs_disease_OMWI_tests.csv"))
 }
 
 # =========================================================
 # 16. Save the full analysis dataset
 # =========================================================
-write_csv(dat, file.path(OUT_DIR, "00_analysis_dataset_with_OMHI.csv"))
+write_csv(dat, file.path(OUT_DIR, "00_analysis_dataset_with_OMWI.csv"))
 
 cat("=====================================================\n")
-cat("OMHI focus analysis (train + test) completed.\n")
-cat("Outputs: overall violin plots, OMHI < 0 OR plots, stratified plots, and the 3 x 3 combined figure.\n")
+cat("OMWI focus analysis (train + test) completed.\n")
+cat("Outputs: overall violin plots, OMWI < 0 OR plots, stratified plots, and the 3 x 3 combined figure.\n")
 cat("Output directory: ", OUT_DIR, "\n")
 cat("=====================================================\n")
 

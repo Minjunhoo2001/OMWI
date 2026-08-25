@@ -16,7 +16,7 @@ options(stringsAsFactors = FALSE)
 # =========================================================
 ROOT_DIR <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/04.lasso64"
 
-OMHI_DIR <- file.path(ROOT_DIR, "omhi_scores")
+OMWI_DIR <- file.path(ROOT_DIR, "omwi_scores")
 OUT_DIR  <- "/share/home/HeMinjun/metagenomic/GitHub/results/Figure3"
 
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
@@ -159,10 +159,10 @@ read_score_one <- function(file, set_name) {
   x$.source_file <- basename(file)
   x$set <- set_name
 
-  check_required_cols(x, c("prob_healthy", "OMHI"), label = set_name)
+  check_required_cols(x, c("prob_healthy", "OMWI"), label = set_name)
 
   x$prob_healthy <- as.numeric(x$prob_healthy)
-  x$OMHI <- as.numeric(x$OMHI)
+  x$OMWI <- as.numeric(x$OMWI)
   x$health01 <- get_health01(x, set_name)
 
   x %>%
@@ -175,7 +175,7 @@ read_score_one <- function(file, set_name) {
     ) %>%
     filter(
       is.finite(prob_healthy),
-      is.finite(OMHI),
+      is.finite(OMWI),
       !is.na(health01),
       !is.na(Disease)
     )
@@ -208,7 +208,7 @@ save_plot <- function(plot, prefix, width, height) {
 }
 
 # =========================================================
-# 3. Read OMHI score files
+# 3. Read OMWI score files
 # =========================================================
 best_file <- file.path(ROOT_DIR, "LASSO_best_model_by_level_full.csv")
 
@@ -236,21 +236,21 @@ cat("prev_cutoff =", prev_val, "\n")
 cat("alpha tag =", atag, "\n")
 
 train_file <- pick_file(
-  OMHI_DIR,
+  OMWI_DIR,
   c(
-    paste0("^OMHI_train_", LEVEL, "_", atag, "\\.csv$"),
-    paste0("OMHI_train_", LEVEL, ".*", atag),
-    paste0("OMHI_train_", LEVEL)
+    paste0("^OMWI_train_", LEVEL, "_", atag, "\\.csv$"),
+    paste0("OMWI_train_", LEVEL, ".*", atag),
+    paste0("OMWI_train_", LEVEL)
   ),
   must = TRUE
 )
 
 test_file <- pick_file(
-  OMHI_DIR,
+  OMWI_DIR,
   c(
-    paste0("^OMHI_test_", LEVEL, "_", atag, "\\.csv$"),
-    paste0("OMHI_test_", LEVEL, ".*", atag),
-    paste0("OMHI_test_", LEVEL)
+    paste0("^OMWI_test_", LEVEL, "_", atag, "\\.csv$"),
+    paste0("OMWI_test_", LEVEL, ".*", atag),
+    paste0("OMWI_test_", LEVEL)
   ),
   must = TRUE
 )
@@ -283,7 +283,7 @@ if (is.null(group_col) || is.null(system_col)) {
 }
 
 plot_df <- score_df_all %>%
-  filter(is.finite(OMHI)) %>%
+  filter(is.finite(OMWI)) %>%
   mutate(
     group2 = recode_group_or_system(.data[[group_col]]),
     system2 = recode_group_or_system(.data[[system_col]]),
@@ -300,7 +300,7 @@ plot_df <- score_df_all %>%
 make_orders_for_one_set <- function(dat_set) {
   system_rank_df <- dat_set %>%
     group_by(system2) %>%
-    summarise(med_system = median(OMHI, na.rm = TRUE), .groups = "drop")
+    summarise(med_system = median(OMWI, na.rm = TRUE), .groups = "drop")
 
   other_systems <- system_rank_df %>%
     filter(system2 != "Healthy") %>%
@@ -317,7 +317,7 @@ make_orders_for_one_set <- function(dat_set) {
 
   group_rank_df <- dat_set %>%
     group_by(group2) %>%
-    summarise(med_group = median(OMHI, na.rm = TRUE), .groups = "drop") %>%
+    summarise(med_group = median(OMWI, na.rm = TRUE), .groups = "drop") %>%
     left_join(group_system_df, by = "group2")
 
   group_levels <- "Healthy"
@@ -356,7 +356,7 @@ make_p_table <- function(dat, xvar, ref_level = "Healthy", min_n = 10, star_by =
     if (nrow(sub_dat) < min_n) return(NULL)
 
     pval <- tryCatch(
-      wilcox.test(ref_dat$OMHI, sub_dat$OMHI, exact = FALSE)$p.value,
+      wilcox.test(ref_dat$OMWI, sub_dat$OMWI, exact = FALSE)$p.value,
       error = function(e) NA_real_
     )
 
@@ -387,7 +387,7 @@ make_p_table <- function(dat, xvar, ref_level = "Healthy", min_n = 10, star_by =
 plot_one_set_group_system <- function(dat_all, set_name, out_tag,
                                       x_limits = c(-4, 4.5), min_n = 10) {
   dat <- dat_all %>%
-    filter(set == set_name, is.finite(OMHI))
+    filter(set == set_name, is.finite(OMWI))
 
   if (nrow(dat) == 0) {
     warning(set_name, ": no available data.")
@@ -489,7 +489,7 @@ plot_one_set_group_system <- function(dat_all, set_name, out_tag,
       p_signif = ifelse(is.na(p_signif) | system2_chr == "Healthy", "", p_signif)
     )
 
-  p_group <- ggplot(group_df, aes(y = group2, x = OMHI, fill = group2)) +
+  p_group <- ggplot(group_df, aes(y = group2, x = OMWI, fill = group2)) +
     geom_violin(scale = "width", trim = FALSE, color = NA, alpha = 0.78) +
     geom_boxplot(
       width = 0.16,
@@ -508,7 +508,7 @@ plot_one_set_group_system <- function(dat_all, set_name, out_tag,
     ) +
     scale_fill_manual(values = group_fill_map) +
     coord_cartesian(xlim = x_limits, clip = "off") +
-    labs(x = "OMHI", y = NULL) +
+    labs(x = "OMWI", y = NULL) +
     theme_cell(10) +
     theme(
       legend.position = "none",
@@ -516,7 +516,7 @@ plot_one_set_group_system <- function(dat_all, set_name, out_tag,
       plot.margin = margin(5.5, 5.5, 5.5, 5.5)
     )
 
-  p_system <- ggplot(system_df, aes(y = system2, x = OMHI, fill = system2)) +
+  p_system <- ggplot(system_df, aes(y = system2, x = OMWI, fill = system2)) +
     geom_violin(scale = "width", trim = FALSE, color = NA, alpha = 0.78) +
     geom_boxplot(
       width = 0.16,
@@ -535,7 +535,7 @@ plot_one_set_group_system <- function(dat_all, set_name, out_tag,
     ) +
     scale_fill_manual(values = sys_fill_map) +
     coord_cartesian(xlim = x_limits, clip = "off") +
-    labs(x = "OMHI", y = NULL) +
+    labs(x = "OMWI", y = NULL) +
     theme_cell(10) +
     theme(
       legend.position = "none",
@@ -591,7 +591,7 @@ plot_one_set_group_system <- function(dat_all, set_name, out_tag,
 res_A <- plot_one_set_group_system(
   dat_all = plot_df,
   set_name = "Training",
-  out_tag = paste0(FIGURE_PREFIX, "A_OMHI_by_group_system_Training"),
+  out_tag = paste0(FIGURE_PREFIX, "A_OMWI_by_group_system_Training"),
   x_limits = c(-4, 4.5),
   min_n = 10
 )
@@ -599,7 +599,7 @@ res_A <- plot_one_set_group_system(
 res_B <- plot_one_set_group_system(
   dat_all = plot_df,
   set_name = "External validation",
-  out_tag = paste0(FIGURE_PREFIX, "B_OMHI_by_group_system_ExternalValidation"),
+  out_tag = paste0(FIGURE_PREFIX, "B_OMWI_by_group_system_ExternalValidation"),
   x_limits = c(-4, 4.5),
   min_n = 10
 )
@@ -610,14 +610,14 @@ if (is.null(res_A) || is.null(res_B)) {
 
 save_plot(
   res_A$plot,
-  paste0(FIGURE_PREFIX, "A_OMHI_by_group_system_Training"),
+  paste0(FIGURE_PREFIX, "A_OMWI_by_group_system_Training"),
   width = PANEL_WIDTH,
   height = PANEL_HEIGHT
 )
 
 save_plot(
   res_B$plot,
-  paste0(FIGURE_PREFIX, "B_OMHI_by_group_system_ExternalValidation"),
+  paste0(FIGURE_PREFIX, "B_OMWI_by_group_system_ExternalValidation"),
   width = PANEL_WIDTH,
   height = PANEL_HEIGHT
 )
@@ -627,7 +627,7 @@ p_AB <- res_A$plot / res_B$plot +
 
 save_plot(
   p_AB,
-  paste0(FIGURE_PREFIX, "AB_OMHI_by_group_system_vertical"),
+  paste0(FIGURE_PREFIX, "AB_OMWI_by_group_system_vertical"),
   width = COMBINED_WIDTH,
   height = COMBINED_HEIGHT
 )

@@ -1,5 +1,5 @@
 #mpa_vJun23_CHOCOPhlAnSGB_202403
-#/share/home/HeMinjun/miniconda3/envs/omhi_env/bin/metaphlan test_results_env/02.nohost/SRR28645805.nohost.R1.fq.gz,test_results_env/02.nohost/SRR28645805.nohost.R2.fq.gz --input_type fastq --bowtie2db /share/home/HeMinjun/db/metaphlan4 --index mpa_vJun23_CHOCOPhlAnSGB_202403 --nproc 4 --bowtie2out test_results_env/03.metaphlan/SRR28645805.metaphlan.bowtie2.bz2 -o test_results_env/03.metaphlan/SRR28645805_profile.tsv
+#/share/home/HeMinjun/miniconda3/envs/omwi_env/bin/metaphlan test_results_env/02.nohost/SRR28645805.nohost.R1.fq.gz,test_results_env/02.nohost/SRR28645805.nohost.R2.fq.gz --input_type fastq --bowtie2db /share/home/HeMinjun/db/metaphlan4 --index mpa_vJun23_CHOCOPhlAnSGB_202403 --nproc 4 --bowtie2out test_results_env/03.metaphlan/SRR28645805.metaphlan.bowtie2.bz2 -o test_results_env/03.metaphlan/SRR28645805_profile.tsv
 #5419000 reads processed
 #SampleID	Metaphlan_Analysis
 #clade_name	NCBI_tax_id	relative_abundance	additional_species

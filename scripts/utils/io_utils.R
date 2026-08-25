@@ -1,6 +1,6 @@
 # ============================================================
 # io_utils.R
-# Input/output and data preparation utilities for OMHI analyses
+# Input/output and data preparation utilities for OMWI analyses
 # ============================================================
 
 suppressPackageStartupMessages({

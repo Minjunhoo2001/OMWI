@@ -17,7 +17,7 @@ options(stringsAsFactors = FALSE)
 ROOT_DIR <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/04.lasso64"
 
 COEF_DIR      <- file.path(ROOT_DIR, "coefficients")
-OMHI_DIR      <- file.path(ROOT_DIR, "omhi_scores")
+OMWI_DIR      <- file.path(ROOT_DIR, "omwi_scores")
 CV_OOF_DIR    <- file.path(ROOT_DIR, "cv_oof")
 LOOCV_OOF_DIR <- file.path(ROOT_DIR, "loocv_oof")
 
@@ -148,23 +148,23 @@ get_health01 <- function(df, set_name) {
   stop(set_name, " The label could not be found for y_true / y_healthy / disease / label.")
 }
 
-read_score_one <- function(file, set_name, need_omhi = TRUE) {
+read_score_one <- function(file, set_name, need_omwi = TRUE) {
   x <- fread(file, data.table = FALSE, check.names = FALSE)
   x$.source_file <- basename(file)
   x$set <- set_name
   
   check_required_cols(x, "prob_healthy", label = set_name)
   
-  if (need_omhi) {
-    check_required_cols(x, "OMHI", label = set_name)
+  if (need_omwi) {
+    check_required_cols(x, "OMWI", label = set_name)
   }
   
   x$prob_healthy <- as.numeric(x$prob_healthy)
   
-  if ("OMHI" %in% colnames(x)) {
-    x$OMHI <- as.numeric(x$OMHI)
+  if ("OMWI" %in% colnames(x)) {
+    x$OMWI <- as.numeric(x$OMWI)
   } else {
-    x$OMHI <- NA_real_
+    x$OMWI <- NA_real_
   }
   
   x$health01 <- get_health01(x, set_name)
@@ -182,8 +182,8 @@ read_score_one <- function(file, set_name, need_omhi = TRUE) {
       !is.na(Disease)
     )
   
-  if (need_omhi) {
-    x <- x %>% filter(!is.na(OMHI))
+  if (need_omwi) {
+    x <- x %>% filter(!is.na(OMWI))
   }
   
   x
@@ -394,24 +394,24 @@ cat("alpha tag =", atag, "\n")
 # =========================================================
 # 4. Read data
 # =========================================================
-cat("\n================ Read OMHI / OOF score files ================\n")
+cat("\n================ Read OMWI / OOF score files ================\n")
 
 train_file <- pick_file(
-  OMHI_DIR,
+  OMWI_DIR,
   c(
-    paste0("^OMHI_train_", LEVEL, "_", atag, "\\.csv$"),
-    paste0("OMHI_train_", LEVEL, ".*", atag),
-    paste0("OMHI_train_", LEVEL)
+    paste0("^OMWI_train_", LEVEL, "_", atag, "\\.csv$"),
+    paste0("OMWI_train_", LEVEL, ".*", atag),
+    paste0("OMWI_train_", LEVEL)
   ),
   must = TRUE
 )
 
 test_file <- pick_file(
-  OMHI_DIR,
+  OMWI_DIR,
   c(
-    paste0("^OMHI_test_", LEVEL, "_", atag, "\\.csv$"),
-    paste0("OMHI_test_", LEVEL, ".*", atag),
-    paste0("OMHI_test_", LEVEL)
+    paste0("^OMWI_test_", LEVEL, "_", atag, "\\.csv$"),
+    paste0("OMWI_test_", LEVEL, ".*", atag),
+    paste0("OMWI_test_", LEVEL)
   ),
   must = TRUE
 )
@@ -443,10 +443,10 @@ cat("External file: ", basename(test_file), "\n")
 cat("LOOCV file: ", basename(loocv_file), "\n")
 cat("10-fold file: ", basename(cv10_file), "\n")
 
-train_df <- read_score_one(train_file, "Training", need_omhi = TRUE)
-test_df  <- read_score_one(test_file, "External validation", need_omhi = TRUE)
-loocv_df <- read_score_one(loocv_file, "LOOCV OOF", need_omhi = TRUE)
-cv10_df  <- read_score_one(cv10_file, "10-fold CV OOF", need_omhi = TRUE)
+train_df <- read_score_one(train_file, "Training", need_omwi = TRUE)
+test_df  <- read_score_one(test_file, "External validation", need_omwi = TRUE)
+loocv_df <- read_score_one(loocv_file, "LOOCV OOF", need_omwi = TRUE)
+cv10_df  <- read_score_one(cv10_file, "10-fold CV OOF", need_omwi = TRUE)
 
 score_df_all <- bind_rows(
   train_df,
@@ -735,9 +735,9 @@ write.csv(
 )
 
 # =========================================================
-# 7. Fig2C：OMHI Violin
+# 7. Fig2C：OMWI Violin
 # =========================================================
-cat("\n================ Fig2C: OMHI violin plot ================\n")
+cat("\n================ Fig2C: OMWI violin plot ================\n")
 
 violin_dat <- bind_rows(train_df, test_df) %>%
   mutate(
@@ -769,19 +769,19 @@ stat_C <- violin_dat %>%
     
     p_value = tryCatch(
       wilcox.test(
-        OMHI[Disease == "Healthy"],
-        OMHI[Disease == "Disease"],
+        OMWI[Disease == "Healthy"],
+        OMWI[Disease == "Disease"],
         exact = FALSE
       )$p.value,
       error = function(e) NA_real_
     ),
     
     cliff_delta = calc_cliff_delta(
-      OMHI[Disease == "Healthy"],
-      OMHI[Disease == "Disease"]
+      OMWI[Disease == "Healthy"],
+      OMWI[Disease == "Disease"]
     ),
     
-    balanced_accuracy = calc_balanced_accuracy(health01, OMHI),
+    balanced_accuracy = calc_balanced_accuracy(health01, OMWI),
     .groups = "drop"
   ) %>%
   mutate(
@@ -797,12 +797,12 @@ stat_C <- violin_dat %>%
 
 write.csv(
   stat_C,
-  file.path(OUT_DIR, "Fig2C_OMHI_violin_species_stats.csv"),
+  file.path(OUT_DIR, "Fig2C_OMWI_violin_species_stats.csv"),
   row.names = FALSE
 )
 
-y_min_all <- min(violin_dat$OMHI, na.rm = TRUE)
-y_max_all <- max(violin_dat$OMHI, na.rm = TRUE)
+y_min_all <- min(violin_dat$OMWI, na.rm = TRUE)
+y_max_all <- max(violin_dat$OMWI, na.rm = TRUE)
 y_rng_all <- y_max_all - y_min_all
 if(!is.finite(y_rng_all) || y_rng_all == 0) y_rng_all <- 1
 
@@ -811,7 +811,7 @@ label_pos <- stat_C %>%
     y_text = y_max_all + 0.22 * y_rng_all
   )
 
-p_C <- ggplot(violin_dat, aes(x = Disease_n, y = OMHI, fill = Disease)) +
+p_C <- ggplot(violin_dat, aes(x = Disease_n, y = OMWI, fill = Disease)) +
   geom_violin(
     aes(fill = Disease),
     width = 0.85,
@@ -867,7 +867,7 @@ p_C <- ggplot(violin_dat, aes(x = Disease_n, y = OMHI, fill = Disease)) +
   facet_wrap(~ set, nrow = 1, scales = "free_x") +
   labs(
     x = NULL,
-    y = "OMHI"
+    y = "OMWI"
   ) +
   coord_cartesian(
   ylim = c(y_min_all, y_max_all + 0.42 * y_rng_all),
@@ -884,7 +884,7 @@ print(p_C)
 
 save_panel(
   p_C,
-  "Fig2C_species_OMHI_violin",
+  "Fig2C_species_OMWI_violin",
   width = 4.4,
   height = 3.6
 )
@@ -901,5 +901,5 @@ cat("10-fold CV OOF AUC =", round(auc_cv, 3), "\n")
 cat("Mean 10-fold fold-wise AUC =", round(mean_cv_auc, 3), "\n")
 cat("External validation AUC =", round(auc_test, 3), "\n")
 
-cat("\nKey OMHI distribution indicators:\n")
+cat("\nKey OMWI distribution indicators:\n")
 print(stat_C)

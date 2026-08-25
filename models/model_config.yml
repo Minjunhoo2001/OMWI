@@ -1,4 +1,4 @@
-model_name: OMHI
+model_name: OMWI
 model_type: elastic_net_logistic_regression
 feature_level: species
 input_profile: MetaPhlAn4 species relative abundance
@@ -18,7 +18,7 @@ model:
   intercept: -0.800988296731756
 
 score:
-  name: OMHI
+  name: OMWI
   definition: intercept + sum(coefficient * CLR abundance)
   cutoff: 0
   positive_score: health-associated oral microbiome profile

@@ -1,0 +1,32 @@
+R version 4.4.1 (2024-06-14 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 11 x64 (build 26200)
+
+Matrix products: default
+
+
+locale:
+[1] C
+system code page: 65001
+
+time zone: Asia/Shanghai
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] broom_1.0.7       pROC_1.18.5       patchwork_1.3.0   ggpubr_0.6.0     
+[5] ggplot2_4.0.0     tidyr_1.3.1       dplyr_1.2.1       data.table_1.16.4
+
+loaded via a namespace (and not attached):
+ [1] bit_4.5.0.1        gtable_0.3.6       compiler_4.4.1     ggsignif_0.6.4    
+ [5] Rcpp_1.0.13        tidyselect_1.2.1   dichromat_2.0-0.1  textshaping_1.0.0 
+ [9] systemfonts_1.2.1  scales_1.4.0       R6_2.5.1           plyr_1.8.9        
+[13] labeling_0.4.3     generics_0.1.3     Formula_1.2-5      backports_1.5.0   
+[17] tibble_3.2.1       car_3.1-3          pillar_1.10.1      RColorBrewer_1.1-3
+[21] rlang_1.2.0        utf8_1.2.4         S7_0.2.0           bit64_4.6.0-1     
+[25] cli_3.6.5          withr_3.0.2        magrittr_2.0.3     grid_4.4.1        
+[29] lifecycle_1.0.5    vctrs_0.7.3        rstatix_0.7.2      glue_1.7.0        
+[33] farver_2.1.2       ragg_1.5.0         abind_1.4-8        carData_3.0-5     
+[37] purrr_1.0.2        tools_4.4.1        pkgconfig_2.0.3   

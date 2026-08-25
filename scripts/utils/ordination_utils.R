@@ -1,6 +1,6 @@
 # ============================================================
 # ordination_utils.R
-# Ordination and PERMANOVA utilities for OMHI analyses
+# Ordination and PERMANOVA utilities for OMWI analyses
 # ============================================================
 
 suppressPackageStartupMessages({

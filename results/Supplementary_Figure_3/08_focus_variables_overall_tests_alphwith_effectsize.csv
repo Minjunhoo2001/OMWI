@@ -1,8 +1,0 @@
-variable,variable_type,overall_test,overall_p,effect_type,effect_size,effect_magnitude,n,candidate_for_main_figure
-age_group,categorical,Kruskal-Wallis,5.274518686962353e-27,epsilon_squared,0.15673442220698675,moderate,785,YES
-BMI_group,categorical,Kruskal-Wallis,7.280171331861097e-12,epsilon_squared,0.09101896413308887,moderate,574,YES
-gender,categorical,Wilcoxon,4.580946285043968e-7,rank_biserial,NA,NA,1386,YES
-smoker,categorical,Kruskal-Wallis,8.028599642142327e-7,epsilon_squared,0.15245714068975813,moderate,174,YES
-WBC_group,categorical,Kruskal-Wallis,0.08084702574243416,epsilon_squared,0.021191559174680137,small,146,NO
-RBC_group,categorical,Kruskal-Wallis,0.1957224158780712,epsilon_squared,0.012356370252178669,small,141,NO
-H_pylori_status,categorical,Wilcoxon,0.6142131700635514,rank_biserial,NA,NA,78,NO

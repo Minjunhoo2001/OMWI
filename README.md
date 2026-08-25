@@ -1,212 +1,196 @@
-# OMHI: Oral Microbiome Health Index
+# OMWI: Oral Microbiome Wellness Index
 
 <p align="center">
-  <img src="images/OMHI-profile.png" width="850">
+  <img src="images/OMWI-profile.png" width="900" alt="Overview of the Oral Microbiome Wellness Index">
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/license-MIT-green">
-  <img src="https://img.shields.io/badge/platform-Linux%20%7C%20HPC-blue">
-  <img src="https://img.shields.io/badge/input-paired--end%20FASTQ-orange">
-  <img src="https://img.shields.io/badge/profiler-MetaPhlAn4-purple">
-  <img src="https://img.shields.io/badge/status-beta-yellow">
+  <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT license">
+  <img src="https://img.shields.io/badge/platform-Linux%20%7C%20HPC-blue" alt="Linux and HPC">
+  <img src="https://img.shields.io/badge/input-paired--end%20FASTQ-orange" alt="Paired-end FASTQ input">
+  <img src="https://img.shields.io/badge/profiler-MetaPhlAn4-purple" alt="MetaPhlAn4 profiler">
+  <img src="https://img.shields.io/badge/status-beta-yellow" alt="Beta status">
 </p>
 
-## Description
+OMWI is a biologically interpretable, metagenome-based score that quantifies how closely an oral microbial profile resembles a health-associated rather than a non-healthy-associated community state.
 
-OMHI, the **Oral Microbiome Health Index**, is a metagenome-based score designed to quantify whether an oral microbial profile is closer to a health-associated or disease-associated oral community state.
+The model was developed from 1,866 publicly available human oral shotgun metagenomes spanning 27 studies, 13 countries, and 15 non-healthy phenotypes. The released species-level elastic-net model uses 50 non-zero taxonomic features.
 
-This repository provides a full OMHI inference pipeline starting from paired-end shotgun metagenomic FASTQ files, as well as a lightweight scoring script for users who already have MetaPhlAn4 species-level abundance profiles.
+> OMWI is a research tool, not a clinical diagnostic test. It does not identify a specific disease and should not be interpreted as an absolute measure of clinical wellness.
 
-The full pipeline performs:
+## Workflow
+
+For paired-end oral shotgun metagenomes, the full pipeline performs four stages:
+
+1. Quality control with fastp.
+2. Human read removal against a GRCh38 Bowtie2 index.
+3. Species-level taxonomic profiling with MetaPhlAn4.
+4. Alignment to the fixed OMWI species universe, centered log-ratio (CLR) transformation, and calculation of the elastic-net linear predictor.
 
 ```text
-FASTQ
-→ quality control
-→ host read removal
-→ MetaPhlAn4 taxonomic profiling
-→ species-level abundance extraction
-→ alignment to the fixed OMHI species universe
-→ CLR transformation
-→ OMHI score calculation
+paired-end FASTQ
+  -> quality control
+  -> host read removal
+  -> MetaPhlAn4 profile
+  -> fixed species universe + CLR
+  -> OMWI score
 ```
-OMHI is not a diagnostic test and should not be used to infer a specific disease.
+
+## System requirements
+
+The full workflow is intended for Linux or an HPC environment with Conda/Mamba. Scoring an existing species-level abundance table only requires R and the packages installed by `environment.yml`.
 
 ## Installation
 
-Clone the repository:
+```bash
+git clone https://github.com/<your-github-account>/OMWI.git
+cd OMWI
 
-```text
-git clone https://github.com/minjunhoo2001/OMHI.git
-cd OMHI
-```
-
-Create the conda environment:
-
-```text
 conda env create -f environment.yml
-conda activate omhi_env
-```
+conda activate omwi_env
 
-Check installation:
-
-```text
 bash workflow/test_installation.sh
 ```
-If all required commands and model files are detected, the installation is ready.
 
+The installation check verifies the required commands and released model files. The external host and MetaPhlAn databases are checked when the full pipeline starts.
 
 ## Required databases
 
-The full OMHI pipeline requires two external databases:
-1.A human Bowtie2 index (GRCh38) for host read removal.
-2.A MetaPhlAn4 database  (mpa_vJun23_CHOCOPhlAnSGB_202403) for taxonomic profiling.
-These databases are not included in this repository.
+The full FASTQ-to-score workflow requires:
 
-Example paths:
-```text
-HOST_INDEX=/path/to/human_bowtie2_index/human_ref
-MPA_DB=/path/to/metaphlan4_database
-MPA_INDEX=mpa_vJun23_CHOCOPhlAnSGB_202403
-```
-**HOST_INDEX** should be the Bowtie2 index prefix, not the folder name.
-For example, if the index files are:
-```text
-/path/to/human_ref.1.bt2
-/path/to/human_ref.2.bt2
-/path/to/human_ref.3.bt2
-/path/to/human_ref.4.bt2
-```
-then use:
-```text
-HOST_INDEX=/path/to/human_ref
+- a GRCh38 Bowtie2 index for host read removal; and
+- the MetaPhlAn4 `mpa_vJun23_CHOCOPhlAnSGB_202403` database.
+
+These databases are not distributed with this repository.
+
+```bash
+export HOST_INDEX=/path/to/human_bowtie2_index/human_ref
+export MPA_DB=/path/to/metaphlan4_database
+export MPA_INDEX=mpa_vJun23_CHOCOPhlAnSGB_202403
 ```
 
-## Input format
+`HOST_INDEX` is the Bowtie2 index prefix, not its directory. For example, if the files are `/path/to/human_ref.1.bt2`, `/path/to/human_ref.2.bt2`, and so on, set `HOST_INDEX=/path/to/human_ref`.
 
-The full pipeline requires a tab-delimited sample sheet:
+## Run OMWI from paired-end FASTQ files
+
+Create a tab-delimited sample sheet whose header is exactly `sample_id`, `r1`, and `r2`:
+
 ```text
 sample_id	r1	r2
 sample01	/path/to/sample01_R1.fastq.gz	/path/to/sample01_R2.fastq.gz
 sample02	/path/to/sample02_R1.fastq.gz	/path/to/sample02_R2.fastq.gz
 ```
-The header must be exactly:
-```text
-sample_id	r1	r2
-```
 
-## Run the full OMHI pipeline
-```text
+Run the pipeline:
+
+```bash
 THREADS=8 \
-HOST_INDEX=/path/to/human_ref \
+HOST_INDEX=/path/to/human_bowtie2_index/human_ref \
 MPA_DB=/path/to/metaphlan4_database \
 MPA_INDEX=mpa_vJun23_CHOCOPhlAnSGB_202403 \
-bash workflow/run_omhi_pipeline.sh samples.tsv results
-```
-The final OMHI scores will be written to:
-```text
-results/05.omhi/omhi_scores.tsv
+bash workflow/run_omwi_pipeline.sh samples.tsv results
 ```
 
-## Output
+The final score table is written to `results/05.omwi/omwi_scores.tsv`.
 
-The output file contains:
-```text
-sample_id	OMHI	predicted_state	matched_universe_taxa	total_universe_taxa
-```
-```text
-Column	Description
-sample_id	Sample identifier
-OMHI	Oral Microbiome Health Index score
-predicted_state	health_associated if OMHI > 0; otherwise disease_associated
-matched_universe_taxa	Number of OMHI universe species matched in the input
-total_universe_taxa	Number of species in the fixed OMHI species universe
-```
+## Run OMWI from an existing species table
 
-Interpretation:
-```text
-OMHI > 0    more health-associated oral microbial profile
-OMHI < 0    more disease-associated oral microbial profile
-```
+If MetaPhlAn4 has already been run, provide a species-by-sample abundance table. The first column contains species names; the remaining columns contain numeric relative abundances as proportions or percentages.
 
-## Calculate OMHI from an existing species-level table
-
-If MetaPhlAn4 has already been run, users can calculate OMHI directly from a species-level abundance table.
-
-Input format:
 ```text
 feature	sample01	sample02
 Neisseria_subflava	0.012	0.004
 Streptococcus_sanguinis	0.003	0.001
 Tannerella_forsythia	0.000	0.005
 ```
-Run:
-```text
-Rscript scripts/calc_omhi.R \
+
+```bash
+Rscript scripts/calc_omwi.R \
   --input taxonomy_species.tsv \
-  --coef model/omhi_species_coefficients.tsv \
-  --universe model/omhi_species_universe.tsv \
-  --output omhi_scores.tsv
-```
-Important note:
-```text
-OMHI is calculated after aligning MetaPhlAn4 species profiles to the fixed OMHI species universe.
-Species not detected in a sample are assigned zero abundance before CLR transformation.
-CLR transformation is always performed over this fixed OMHI species universe.
+  --coef models/omwi_species_coefficients.tsv \
+  --universe models/omwi_species_universe.tsv \
+  --output omwi_scores.tsv
 ```
 
-## Calculate OMHI from a MetaPhlAn4 merged table
+For a merged MetaPhlAn4 table, first extract taxonomic levels and then score the species table:
 
-If users already have a merged MetaPhlAn4 table, first extract species-level abundance:
-```text
-python scripts/metaphlan_level_extractor.py \
-  metaphlan4_merged.tsv \
-  level
-```
-Then calculate OMHI:
-```text
-Rscript scripts/calc_omhi.R \
-  --input level/species.tsv \
-  --coef model/omhi_species_coefficients.tsv \
-  --universe model/omhi_species_universe.tsv \
-  --output omhi_scores.tsv
+```bash
+python scripts/metaphlan_level_extractor.py metaphlan4_merged.tsv level
+
+Rscript scripts/calc_omwi.R \
+  --input level/metaphlan4_merged_species.tsv \
+  --coef models/omwi_species_coefficients.tsv \
+  --universe models/omwi_species_universe.tsv \
+  --output omwi_scores.tsv
 ```
 
-## HPC / LSF example
+Species absent from a sample are assigned zero abundance before adding the pseudocount. CLR transformation is always performed over the released, fixed OMWI species universe.
 
-An example LSF submission script is provided:
+## Output and interpretation
+
 ```text
-bsub < submit/submit_omhi_test.lsf
+sample_id	OMWI	predicted_state	matched_universe_taxa	total_universe_taxa
 ```
-Users should modify the following variables in the submission script:
-```text
-PROJECT_DIR="/path/to/OMHI"
-HOST_INDEX="/path/to/human_ref"
-MPA_DB="/path/to/metaphlan4_database"
-MPA_INDEX="mpa_vJun23_CHOCOPhlAnSGB_202403"
-SAMPLE_SHEET="samples.tsv"
-OUTDIR="results"
-```
+
+| Column | Description |
+| --- | --- |
+| `sample_id` | Sample identifier. |
+| `OMWI` | Elastic-net linear predictor (the predicted log odds of health). |
+| `predicted_state` | `health_associated` if OMWI > 0; otherwise `non_healthy_associated`. |
+| `matched_universe_taxa` | Number of OMWI-universe species observed in the input. |
+| `total_universe_taxa` | Number of species in the fixed OMWI universe. |
+
+- OMWI > 0: the profile is closer to the health-associated reference state.
+- OMWI < 0: the profile is closer to the non-healthy-associated reference state.
+- OMWI = 0: the fitted model assigns a health probability of 0.5.
 
 ## Model files
 
-The released OMHI model files are stored in model/:
 ```text
-model/
-├── omhi_species_coefficients.tsv
-├── omhi_species_coefficients_full.tsv
-├── omhi_species_coefficients_nonzero.tsv
-├── omhi_species_universe.tsv
-└── omhi_species_model_config.tsv
+models/
+|-- model_config.yml
+|-- omwi_species_coefficients.tsv
+|-- omwi_species_coefficients_full.tsv
+|-- omwi_species_model_config.tsv
+`-- omwi_species_universe.tsv
 ```
-**omhi_species_universe.tsv** defines the fixed species set used for CLR transformation.
 
-**omhi_species_coefficients.tsv** contains the coefficients used to calculate OMHI.
+`omwi_species_coefficients.tsv` contains the intercept and 50 non-zero model coefficients. `omwi_species_coefficients_full.tsv` additionally retains zero-coefficient species for auditability. `omwi_species_universe.tsv` defines the fixed feature space used for zero filling and CLR transformation.
+
+## HPC / LSF example
+
+An example submission script is provided in `submit/submit_omwi_test.lsf`. Update `PROJECT_DIR`, database paths, sample sheet, and output directory before submission:
+
+```bash
+bsub < submit/submit_omwi_test.lsf
+```
+
+## Reproducing manuscript figures
+
+The `scripts/Figure*` and supplementary-figure scripts contain the analysis and plotting code used for the manuscript outputs in `results/`. They are separate from the lightweight inference workflow.
+
+The main-figure result folders now include the previously missing manuscript panels:
+
+- Figure 1d cohort map: `results/Figure1/Fig1D_map/`
+- Figure 2f leave-one-training-cohort-out stability heatmap: `results/Figure2/Fig2F_LODO_stability/`
+- Figure 3f disease-system AUC with 95% confidence intervals: `results/Figure3/Fig3F_system_AUC/`
+
+Their source-data links, plotting scripts, numerical checks, and the map coverage note are recorded in `results/MAIN_FIGURE_PANEL_AUDIT_2026-08-24.md`.
+
+The submission-frozen supplementary figures are organized as `results/Supplementary_Figure_1` through `results/Supplementary_Figure_4`. Their formal manuscript mapping, source-data locations, and SHA-256 checksums are recorded in `results/SUBMISSION_FREEZE_2026-08-24.md`. Additional host-factor plots that are not part of the formal four-figure supplement are retained in `results/Host_Factor_Exploratory_Analyses`.
+
+## Conceptual reference
+
+The repository organization and transparent input-to-score presentation were informed by [GMWI2](https://github.com/danielchang2002/GMWI2/), while OMWI uses an independently developed oral-microbiome model, MetaPhlAn4 profiles, a fixed species universe, CLR transformation, and elastic-net logistic regression.
 
 ## Citation
 
-If you use OMHI, please cite:
-[OMHI manuscript citation here]
+If you use OMWI, please cite the associated manuscript:
+
+> A generalizable oral microbiome wellness index predicts health status across global populations.
+
+The complete journal citation and DOI will be added after publication.
 
 ## License
-This project is released under the MIT License.
+
+This project is released under the [MIT License](LICENSE).
