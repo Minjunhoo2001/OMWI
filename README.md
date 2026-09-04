@@ -43,7 +43,7 @@ The full workflow is intended for Linux or an HPC environment with Conda/Mamba. 
 ## Installation
 
 ```bash
-git clone https://github.com/<your-github-account>/OMWI.git
+git clone https://github.com/Minjunhoo2001/OMWI.git
 cd OMWI
 
 conda env create -f environment.yml
