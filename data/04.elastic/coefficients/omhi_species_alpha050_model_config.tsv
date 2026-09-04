@@ -1,0 +1,13 @@
+key	value
+model_name	OMHI
+model_type	elastic_net_logistic_regression
+feature_level	species
+alpha	0.5
+lambda_used	lambda.1se
+lambda_value	0.0378539279389086
+pseudocount	1e-6
+transform	CLR
+standardize	TRUE
+positive_label	healthy
+negative_label	disease
+score_definition	linear predictor: intercept + sum(coef_j * CLR_abundance_j)

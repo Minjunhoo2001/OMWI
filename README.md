@@ -165,24 +165,6 @@ An example submission script is provided in `submit/submit_omwi_test.lsf`. Updat
 bsub < submit/submit_omwi_test.lsf
 ```
 
-## Reproducing manuscript figures
-
-The `scripts/Figure*` and supplementary-figure scripts contain the analysis and plotting code used for the manuscript outputs in `results/`. They are separate from the lightweight inference workflow.
-
-The main-figure result folders now include the previously missing manuscript panels:
-
-- Figure 1d cohort map: `results/Figure1/Fig1D_map/`
-- Figure 2f leave-one-training-cohort-out stability heatmap: `results/Figure2/Fig2F_LODO_stability/`
-- Figure 3f disease-system AUC with 95% confidence intervals: `results/Figure3/Fig3F_system_AUC/`
-
-Their source-data links, plotting scripts, numerical checks, and the map coverage note are recorded in `results/MAIN_FIGURE_PANEL_AUDIT_2026-08-24.md`.
-
-The submission-frozen supplementary figures are organized as `results/Supplementary_Figure_1` through `results/Supplementary_Figure_4`. Their formal manuscript mapping, source-data locations, and SHA-256 checksums are recorded in `results/SUBMISSION_FREEZE_2026-08-24.md`. Additional host-factor plots that are not part of the formal four-figure supplement are retained in `results/Host_Factor_Exploratory_Analyses`.
-
-## Conceptual reference
-
-The repository organization and transparent input-to-score presentation were informed by [GMWI2](https://github.com/danielchang2002/GMWI2/), while OMWI uses an independently developed oral-microbiome model, MetaPhlAn4 profiles, a fixed species universe, CLR transformation, and elastic-net logistic regression.
-
 ## Citation
 
 If you use OMWI, please cite the associated manuscript:

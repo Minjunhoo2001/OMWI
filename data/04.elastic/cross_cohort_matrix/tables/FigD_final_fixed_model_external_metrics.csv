@@ -1,0 +1,22 @@
+external_study,cohort_type,type_tag,n_total,n_healthy,n_disease,n_correct,metric_name,facet_group,metric,ci_lower,ci_upper,model_type,omitted_training_study
+BelstromD_2021,Mixed,CC,78,36,42,,AUC,"Case-control cohorts
+(AUC)",0.820767195767196,0.727818759413104,0.913715632121287,Final fixed model,
+BritoIL_2016,Healthy-only,H-only,115,115,0,41,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.356521739130435,0.269406020314858,0.451223465882198,Final fixed model,
+CaselliE_2020,Healthy-only,H-only,54,54,0,44,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.814814814814815,0.685703483019792,0.907454513293949,Final fixed model,
+ChenQB_2024,Mixed,CC,90,19,71,,AUC,"Case-control cohorts
+(AUC)",0.623424759080801,0.460650474043788,0.786199044117813,Final fixed model,
+KartalE_2022,Mixed,CC,44,17,27,,AUC,"Case-control cohorts
+(AUC)",0.337690631808279,0.165908156508342,0.509473107108216,Final fixed model,
+Koohi-MoghadamM_2024,Mixed,CC,20,11,9,,AUC,"Case-control cohorts
+(AUC)",0.898989898989899,0.757260537267118,1,Final fixed model,
+LassalleF_2017,Healthy-only,H-only,24,24,0,2,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.0833333333333333,0.0102563412812502,0.269972801557604,Final fixed model,
+NagataN_2022,Mixed,CC,282,235,47,,AUC,"Case-control cohorts
+(AUC)",0.623992756903576,0.537204785465531,0.710780728341622,Final fixed model,
+PlachokovaA_2021,Disease-only,D-only,7,0,7,7,Disease CCR,Single-class cohorts: expected-direction classification rate,1,0.590383602774997,1,Final fixed model,
+ShalonD_2023,Healthy-only,H-only,29,29,0,14,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.482758620689655,0.294485582951841,0.674685003638544,Final fixed model,
+SunBY_2021,Mixed,CC,18,6,12,,AUC,"Case-control cohorts
+(AUC)",0.916666666666667,0.773938349455316,1,Final fixed model,

@@ -1,0 +1,17 @@
+study,alpha,prev_cutoff,loso_auc,input_taxa_n,retained_taxa_n,n_total,n_healthy,n_disease,healthy_ccr,disease_ccr,balanced_accuracy,single_class_accuracy,metric_type,metric_value
+Castro-NallarE_2015,0.1,0.3,0.486111111111111,11,7,18,6,12,0.166666666666667,0.916666666666667,0.541666666666667,,balanced_accuracy,0.541666666666667
+ZhangDY_2015,0.1,0.3,0.577872340425532,9,3,122,47,75,0,1,0.5,,balanced_accuracy,0.5
+ChenBY_2023,0.1,0.3,,10,1,56,0,56,,1,,1,single_class_accuracy,1
+BuschartA_2016,0.1,0.3,0.55,11,7,53,8,45,0,0.777777777777778,0.388888888888889,,balanced_accuracy,0.388888888888889
+VQuintanaL_2024,0.1,0.3,0.596726190476191,11,3,53,21,32,0,1,0.5,,balanced_accuracy,0.5
+ArmstrongA_2021,0.1,0.3,,11,5,13,13,0,0,,,0,single_class_accuracy,0
+BelstromD_2017,0.1,0.3,0.71,11,5,20,10,10,0,1,0.5,,balanced_accuracy,0.5
+BostanciN_2021,0.1,0.3,0.582482993197279,11,7,154,126,28,0,1,0.5,,balanced_accuracy,0.5
+ChenLW_2022,0.1,0.3,,11,6,61,61,0,0,,,0,single_class_accuracy,0
+CuiJ_2019,0.1,0.3,0.567045454545455,10,4,128,40,88,0,1,0.5,,balanced_accuracy,0.5
+JiangQ_2021,0.1,0.3,,11,6,21,0,21,,1,,1,single_class_accuracy,1
+LiYJ_2023,0.1,0.3,0.833333333333333,11,3,19,10,9,0,1,0.5,,balanced_accuracy,0.5
+preprint_CastilhosJ_2021,0.1,0.3,,11,4,224,0,224,,0.0133928571428571,,0.0133928571428571,single_class_accuracy,0.0133928571428571
+ShaiberA_2020,0.1,0.3,,11,5,35,35,0,0,,,0,single_class_accuracy,0
+ZhuJY_2023,0.1,0.3,0.575342465753425,9,4,74,73,1,0,1,0.5,,balanced_accuracy,0.5
+ZellerG_2014,0.1,0.3,0.585858585858586,11,3,54,21,33,0,1,0.5,,balanced_accuracy,0.5

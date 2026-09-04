@@ -1,0 +1,27 @@
+set,study,cohort_type,phenotypes,n_total,n_healthy,n_disease,min_class_n,small_class_flag,median_OMWI_healthy,median_OMWI_disease,auc,ci_lower,ci_upper,auc_ci,interpretation
+Training,VQuintanaL_2024,Case-control,Pancreatic cancer; Pancreatitis,53,21,32,21,FALSE,0.204359866442908,-1.39249551,0.879464285714286,0.789643814482462,0.96928475694611,0.88 (0.79–0.97),Apparent AUC of final fitted model
+Training,LiYJ_2023,Case-control,Type 2 diabetes,19,10,9,9,FALSE,-0.264042181,-0.595380664,0.855555555555556,0.67975577238391,1,0.86 (0.68–1.00),Apparent AUC of final fitted model
+Training,BelstromD_2017,Case-control,Periodontitis,20,10,10,10,FALSE,0.38101114037176,-0.163940621,0.83,0.642689231767971,1,0.83 (0.64–1.00),Apparent AUC of final fitted model
+Training,ZellerG_2014,Case-control,Colorectal cancer; Obesity; Overweight,54,21,33,21,FALSE,0.122937532385625,-0.91240671,0.82972582972583,0.720392665187345,0.939058994264314,0.83 (0.72–0.94),Apparent AUC of final fitted model
+Training,CuiJ_2019,Case-control,Atrophic gastritis; BMI low; Intestinal metaplasia; Obesity; Overweight; Superficial gastritis,128,40,88,40,FALSE,-0.341231175,-1.077414352,0.813068181818182,0.733093080388732,0.893043283247631,0.81 (0.73–0.89),Apparent AUC of final fitted model
+Training,ZhangDY_2015,Case-control,Rheumatoid Arthritis,122,47,75,47,FALSE,-0.134923514,-0.877136228,0.796595744680851,0.716173118616861,0.877018370744841,0.80 (0.72–0.88),Apparent AUC of final fitted model
+Training,BostanciN_2021,Case-control,BMI low; Obesity; Overweight,154,126,28,28,FALSE,0.692890900595081,0.328577273422145,0.628968253968254,0.50724555021624,0.750690957720268,0.63 (0.51–0.75),Apparent AUC of final fitted model
+Training,Castro-NallarE_2015,Case-control,Obesity; Overweight; Type 2 diabetes,18,6,12,6,FALSE,-0.283146026,-0.2128386995,0.611111111111111,0.306033445718938,0.916188776503284,0.61 (0.31–0.92),Apparent AUC of final fitted model
+Training,BuschartA_2016,Case-control,BMI low; Obesity; Overweight; Type 1 diabetes; Type 2 diabetes,53,8,45,8,FALSE,0.0248523688684075,-0.162958381,0.538888888888889,0.335914698884452,0.741863078893326,0.54 (0.34–0.74),Apparent AUC of final fitted model
+Training,ArmstrongA_2021,Healthy-only,Disease,13,13,0,0,FALSE,-0.170321785,,,,,NA,AUC not estimable for a single-class cohort
+Training,ChenBY_2023,Disease-only,Periodontitis,56,0,56,0,FALSE,,-0.8265698555,,,,NA,AUC not estimable for a single-class cohort
+Training,ChenLW_2022,Healthy-only,Disease,61,61,0,0,FALSE,0.592523502146697,,,,,NA,AUC not estimable for a single-class cohort
+Training,JiangQ_2021,Disease-only,Adenoid Cystic Carcinoma,21,0,21,0,FALSE,,-0.391154798,,,,NA,AUC not estimable for a single-class cohort
+Training,ShaiberA_2020,Healthy-only,Disease,35,35,0,0,FALSE,0.439007772663539,,,,,NA,AUC not estimable for a single-class cohort
+Training,preprint_CastilhosJ_2021,Disease-only,COVID,224,0,224,0,FALSE,,-0.9943476925,,,,NA,AUC not estimable for a single-class cohort
+External validation,SunBY_2021,Case-control,Periodontitis,18,6,12,6,FALSE,0.448975433773482,-0.682250383713545,0.916666666666667,0.773938349455316,1,0.92 (0.77–1.00),Independent external-validation AUC
+External validation,Koohi-MoghadamM_2024,Case-control,Periodontitis,20,11,9,9,FALSE,-0.327859179781401,-1.35600631586916,0.898989898989899,0.757260537267118,1,0.90 (0.76–1.00),Independent external-validation AUC
+External validation,BelstromD_2021,Case-control,Periodontitis,78,36,42,36,FALSE,-0.0135861126041245,-0.87229715903106,0.820767195767196,0.727818759413104,0.913715632121287,0.82 (0.73–0.91),Independent external-validation AUC
+External validation,NagataN_2022,Case-control,Pancreatic cancer,282,235,47,47,FALSE,-0.260735018740602,-0.701734943201212,0.623992756903576,0.537204785465531,0.710780728341622,0.62 (0.54–0.71),Independent external-validation AUC
+External validation,ChenQB_2024,Case-control,BMI low; Colorectal cancer; Colorectal polyps; Overweight,90,19,71,19,FALSE,-1.01184963542184,-1.28732700795006,0.623424759080801,0.460650474043788,0.786199044117813,0.62 (0.46–0.79),Independent external-validation AUC
+External validation,KartalE_2022,Case-control,Obesity; Pancreatic cancer; Pancreatitis; Periodontitis; Type 1 diabetes,44,17,27,17,FALSE,-1.45541920427856,-0.768466096231679,0.337690631808279,0.165908156508342,0.509473107108216,0.34 (0.17–0.51),Independent external-validation AUC
+External validation,BritoIL_2016,Healthy-only,Disease,115,115,0,0,FALSE,-0.335739542618192,,,,,NA,AUC not estimable for a single-class cohort
+External validation,CaselliE_2020,Healthy-only,Disease,54,54,0,0,FALSE,0.705986475218178,,,,,NA,AUC not estimable for a single-class cohort
+External validation,LassalleF_2017,Healthy-only,Disease,24,24,0,0,FALSE,-1.00660741875316,,,,,NA,AUC not estimable for a single-class cohort
+External validation,PlachokovaA_2021,Disease-only,Periodontitis,7,0,7,0,FALSE,,-0.760714218362763,,,,NA,AUC not estimable for a single-class cohort
+External validation,ShalonD_2023,Healthy-only,Disease,29,29,0,0,FALSE,-0.0626087566960859,,,,,NA,AUC not estimable for a single-class cohort

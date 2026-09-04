@@ -1,0 +1,2 @@
+n_total,n_healthy,n_disease,healthy_ccr,disease_ccr,balanced_accuracy,single_class_accuracy,metric_type,metric_value
+1105,471,634,0.462845010615711,0.84384858044164,0.653346795528676,,balanced_accuracy,0.653346795528676

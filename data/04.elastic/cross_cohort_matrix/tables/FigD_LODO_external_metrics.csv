@@ -1,0 +1,337 @@
+external_study,cohort_type,type_tag,n_total,n_healthy,n_disease,n_correct,metric_name,facet_group,metric,ci_lower,ci_upper,model_type,omitted_training_study,input_taxa_n,retained_taxa_n,lambda_1se
+BelstromD_2021,Mixed,CC,78,36,42,,AUC,"Case-control cohorts
+(AUC)",0.831349206349206,,,LODO models,preprint_CastilhosJ_2021,210,88,0.0280396625852904
+BritoIL_2016,Healthy-only,H-only,115,115,0,41,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.356521739130435,,,LODO models,preprint_CastilhosJ_2021,210,88,0.0280396625852904
+CaselliE_2020,Healthy-only,H-only,54,54,0,52,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.962962962962963,,,LODO models,preprint_CastilhosJ_2021,210,88,0.0280396625852904
+ChenQB_2024,Mixed,CC,90,19,71,,AUC,"Case-control cohorts
+(AUC)",0.570793180133432,,,LODO models,preprint_CastilhosJ_2021,210,88,0.0280396625852904
+KartalE_2022,Mixed,CC,44,17,27,,AUC,"Case-control cohorts
+(AUC)",0.326797385620915,,,LODO models,preprint_CastilhosJ_2021,210,88,0.0280396625852904
+Koohi-MoghadamM_2024,Mixed,CC,20,11,9,,AUC,"Case-control cohorts
+(AUC)",0.909090909090909,,,LODO models,preprint_CastilhosJ_2021,210,88,0.0280396625852904
+LassalleF_2017,Healthy-only,H-only,24,24,0,7,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.291666666666667,,,LODO models,preprint_CastilhosJ_2021,210,88,0.0280396625852904
+NagataN_2022,Mixed,CC,282,235,47,,AUC,"Case-control cohorts
+(AUC)",0.541693073789045,,,LODO models,preprint_CastilhosJ_2021,210,88,0.0280396625852904
+PlachokovaA_2021,Disease-only,D-only,7,0,7,5,Disease CCR,Single-class cohorts: expected-direction classification rate,0.714285714285714,,,LODO models,preprint_CastilhosJ_2021,210,88,0.0280396625852904
+ShalonD_2023,Healthy-only,H-only,29,29,0,21,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.724137931034483,,,LODO models,preprint_CastilhosJ_2021,210,88,0.0280396625852904
+SunBY_2021,Mixed,CC,18,6,12,,AUC,"Case-control cohorts
+(AUC)",0.902777777777778,,,LODO models,preprint_CastilhosJ_2021,210,88,0.0280396625852904
+BelstromD_2021,Mixed,CC,78,36,42,,AUC,"Case-control cohorts
+(AUC)",0.76521164021164,,,LODO models,BostanciN_2021,204,88,0.0273840048366932
+BritoIL_2016,Healthy-only,H-only,115,115,0,39,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.339130434782609,,,LODO models,BostanciN_2021,204,88,0.0273840048366932
+CaselliE_2020,Healthy-only,H-only,54,54,0,33,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.611111111111111,,,LODO models,BostanciN_2021,204,88,0.0273840048366932
+ChenQB_2024,Mixed,CC,90,19,71,,AUC,"Case-control cohorts
+(AUC)",0.62416604892513,,,LODO models,BostanciN_2021,204,88,0.0273840048366932
+KartalE_2022,Mixed,CC,44,17,27,,AUC,"Case-control cohorts
+(AUC)",0.366013071895425,,,LODO models,BostanciN_2021,204,88,0.0273840048366932
+Koohi-MoghadamM_2024,Mixed,CC,20,11,9,,AUC,"Case-control cohorts
+(AUC)",0.909090909090909,,,LODO models,BostanciN_2021,204,88,0.0273840048366932
+LassalleF_2017,Healthy-only,H-only,24,24,0,3,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.125,,,LODO models,BostanciN_2021,204,88,0.0273840048366932
+NagataN_2022,Mixed,CC,282,235,47,,AUC,"Case-control cohorts
+(AUC)",0.627252150294251,,,LODO models,BostanciN_2021,204,88,0.0273840048366932
+PlachokovaA_2021,Disease-only,D-only,7,0,7,7,Disease CCR,Single-class cohorts: expected-direction classification rate,1,,,LODO models,BostanciN_2021,204,88,0.0273840048366932
+ShalonD_2023,Healthy-only,H-only,29,29,0,14,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.482758620689655,,,LODO models,BostanciN_2021,204,88,0.0273840048366932
+SunBY_2021,Mixed,CC,18,6,12,,AUC,"Case-control cohorts
+(AUC)",0.847222222222222,,,LODO models,BostanciN_2021,204,88,0.0273840048366932
+BelstromD_2021,Mixed,CC,78,36,42,,AUC,"Case-control cohorts
+(AUC)",0.802910052910053,,,LODO models,CuiJ_2019,161,39,0.0434087023017266
+BritoIL_2016,Healthy-only,H-only,115,115,0,29,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.252173913043478,,,LODO models,CuiJ_2019,161,39,0.0434087023017266
+CaselliE_2020,Healthy-only,H-only,54,54,0,43,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.796296296296296,,,LODO models,CuiJ_2019,161,39,0.0434087023017266
+ChenQB_2024,Mixed,CC,90,19,71,,AUC,"Case-control cohorts
+(AUC)",0.667160859896219,,,LODO models,CuiJ_2019,161,39,0.0434087023017266
+KartalE_2022,Mixed,CC,44,17,27,,AUC,"Case-control cohorts
+(AUC)",0.348583877995643,,,LODO models,CuiJ_2019,161,39,0.0434087023017266
+Koohi-MoghadamM_2024,Mixed,CC,20,11,9,,AUC,"Case-control cohorts
+(AUC)",0.898989898989899,,,LODO models,CuiJ_2019,161,39,0.0434087023017266
+LassalleF_2017,Healthy-only,H-only,24,24,0,2,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.0833333333333333,,,LODO models,CuiJ_2019,161,39,0.0434087023017266
+NagataN_2022,Mixed,CC,282,235,47,,AUC,"Case-control cohorts
+(AUC)",0.623540063377094,,,LODO models,CuiJ_2019,161,39,0.0434087023017266
+PlachokovaA_2021,Disease-only,D-only,7,0,7,6,Disease CCR,Single-class cohorts: expected-direction classification rate,0.857142857142857,,,LODO models,CuiJ_2019,161,39,0.0434087023017266
+ShalonD_2023,Healthy-only,H-only,29,29,0,15,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.517241379310345,,,LODO models,CuiJ_2019,161,39,0.0434087023017266
+SunBY_2021,Mixed,CC,18,6,12,,AUC,"Case-control cohorts
+(AUC)",0.888888888888889,,,LODO models,CuiJ_2019,161,39,0.0434087023017266
+BelstromD_2021,Mixed,CC,78,36,42,,AUC,"Case-control cohorts
+(AUC)",0.819444444444445,,,LODO models,ZhangDY_2015,149,30,0.0607393139313974
+BritoIL_2016,Healthy-only,H-only,115,115,0,14,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.121739130434783,,,LODO models,ZhangDY_2015,149,30,0.0607393139313974
+CaselliE_2020,Healthy-only,H-only,54,54,0,44,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.814814814814815,,,LODO models,ZhangDY_2015,149,30,0.0607393139313974
+ChenQB_2024,Mixed,CC,90,19,71,,AUC,"Case-control cohorts
+(AUC)",0.627131208302446,,,LODO models,ZhangDY_2015,149,30,0.0607393139313974
+KartalE_2022,Mixed,CC,44,17,27,,AUC,"Case-control cohorts
+(AUC)",0.311546840958606,,,LODO models,ZhangDY_2015,149,30,0.0607393139313974
+Koohi-MoghadamM_2024,Mixed,CC,20,11,9,,AUC,"Case-control cohorts
+(AUC)",0.939393939393939,,,LODO models,ZhangDY_2015,149,30,0.0607393139313974
+LassalleF_2017,Healthy-only,H-only,24,24,0,0,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0,,,LODO models,ZhangDY_2015,149,30,0.0607393139313974
+NagataN_2022,Mixed,CC,282,235,47,,AUC,"Case-control cohorts
+(AUC)",0.579900407424174,,,LODO models,ZhangDY_2015,149,30,0.0607393139313974
+PlachokovaA_2021,Disease-only,D-only,7,0,7,7,Disease CCR,Single-class cohorts: expected-direction classification rate,1,,,LODO models,ZhangDY_2015,149,30,0.0607393139313974
+ShalonD_2023,Healthy-only,H-only,29,29,0,13,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.448275862068966,,,LODO models,ZhangDY_2015,149,30,0.0607393139313974
+SunBY_2021,Mixed,CC,18,6,12,,AUC,"Case-control cohorts
+(AUC)",0.847222222222222,,,LODO models,ZhangDY_2015,149,30,0.0607393139313974
+BelstromD_2021,Mixed,CC,78,36,42,,AUC,"Case-control cohorts
+(AUC)",0.815476190476191,,,LODO models,ZhuJY_2023,154,53,0.0365080575001467
+BritoIL_2016,Healthy-only,H-only,115,115,0,15,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.130434782608696,,,LODO models,ZhuJY_2023,154,53,0.0365080575001467
+CaselliE_2020,Healthy-only,H-only,54,54,0,42,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.777777777777778,,,LODO models,ZhuJY_2023,154,53,0.0365080575001467
+ChenQB_2024,Mixed,CC,90,19,71,,AUC,"Case-control cohorts
+(AUC)",0.653817642698295,,,LODO models,ZhuJY_2023,154,53,0.0365080575001467
+KartalE_2022,Mixed,CC,44,17,27,,AUC,"Case-control cohorts
+(AUC)",0.34640522875817,,,LODO models,ZhuJY_2023,154,53,0.0365080575001467
+Koohi-MoghadamM_2024,Mixed,CC,20,11,9,,AUC,"Case-control cohorts
+(AUC)",0.96969696969697,,,LODO models,ZhuJY_2023,154,53,0.0365080575001467
+LassalleF_2017,Healthy-only,H-only,24,24,0,0,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0,,,LODO models,ZhuJY_2023,154,53,0.0365080575001467
+NagataN_2022,Mixed,CC,282,235,47,,AUC,"Case-control cohorts
+(AUC)",0.599909461294704,,,LODO models,ZhuJY_2023,154,53,0.0365080575001467
+PlachokovaA_2021,Disease-only,D-only,7,0,7,6,Disease CCR,Single-class cohorts: expected-direction classification rate,0.857142857142857,,,LODO models,ZhuJY_2023,154,53,0.0365080575001467
+ShalonD_2023,Healthy-only,H-only,29,29,0,13,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.448275862068966,,,LODO models,ZhuJY_2023,154,53,0.0365080575001467
+SunBY_2021,Mixed,CC,18,6,12,,AUC,"Case-control cohorts
+(AUC)",0.930555555555556,,,LODO models,ZhuJY_2023,154,53,0.0365080575001467
+BelstromD_2021,Mixed,CC,78,36,42,,AUC,"Case-control cohorts
+(AUC)",0.845238095238095,,,LODO models,ChenLW_2022,187,75,0.0290436741442366
+BritoIL_2016,Healthy-only,H-only,115,115,0,29,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.252173913043478,,,LODO models,ChenLW_2022,187,75,0.0290436741442366
+CaselliE_2020,Healthy-only,H-only,54,54,0,34,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.62962962962963,,,LODO models,ChenLW_2022,187,75,0.0290436741442366
+ChenQB_2024,Mixed,CC,90,19,71,,AUC,"Case-control cohorts
+(AUC)",0.552260934025204,,,LODO models,ChenLW_2022,187,75,0.0290436741442366
+KartalE_2022,Mixed,CC,44,17,27,,AUC,"Case-control cohorts
+(AUC)",0.363834422657952,,,LODO models,ChenLW_2022,187,75,0.0290436741442366
+Koohi-MoghadamM_2024,Mixed,CC,20,11,9,,AUC,"Case-control cohorts
+(AUC)",0.898989898989899,,,LODO models,ChenLW_2022,187,75,0.0290436741442366
+LassalleF_2017,Healthy-only,H-only,24,24,0,3,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.125,,,LODO models,ChenLW_2022,187,75,0.0290436741442366
+NagataN_2022,Mixed,CC,282,235,47,,AUC,"Case-control cohorts
+(AUC)",0.613580805794477,,,LODO models,ChenLW_2022,187,75,0.0290436741442366
+PlachokovaA_2021,Disease-only,D-only,7,0,7,7,Disease CCR,Single-class cohorts: expected-direction classification rate,1,,,LODO models,ChenLW_2022,187,75,0.0290436741442366
+ShalonD_2023,Healthy-only,H-only,29,29,0,15,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.517241379310345,,,LODO models,ChenLW_2022,187,75,0.0290436741442366
+SunBY_2021,Mixed,CC,18,6,12,,AUC,"Case-control cohorts
+(AUC)",0.916666666666667,,,LODO models,ChenLW_2022,187,75,0.0290436741442366
+BelstromD_2021,Mixed,CC,78,36,42,,AUC,"Case-control cohorts
+(AUC)",0.833333333333333,,,LODO models,ChenBY_2023,168,42,0.0498679257812825
+BritoIL_2016,Healthy-only,H-only,115,115,0,49,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.426086956521739,,,LODO models,ChenBY_2023,168,42,0.0498679257812825
+CaselliE_2020,Healthy-only,H-only,54,54,0,41,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.759259259259259,,,LODO models,ChenBY_2023,168,42,0.0498679257812825
+ChenQB_2024,Mixed,CC,90,19,71,,AUC,"Case-control cohorts
+(AUC)",0.650111193476649,,,LODO models,ChenBY_2023,168,42,0.0498679257812825
+KartalE_2022,Mixed,CC,44,17,27,,AUC,"Case-control cohorts
+(AUC)",0.355119825708061,,,LODO models,ChenBY_2023,168,42,0.0498679257812825
+Koohi-MoghadamM_2024,Mixed,CC,20,11,9,,AUC,"Case-control cohorts
+(AUC)",0.787878787878788,,,LODO models,ChenBY_2023,168,42,0.0498679257812825
+LassalleF_2017,Healthy-only,H-only,24,24,0,4,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.166666666666667,,,LODO models,ChenBY_2023,168,42,0.0498679257812825
+NagataN_2022,Mixed,CC,282,235,47,,AUC,"Case-control cohorts
+(AUC)",0.606066093254866,,,LODO models,ChenBY_2023,168,42,0.0498679257812825
+PlachokovaA_2021,Disease-only,D-only,7,0,7,7,Disease CCR,Single-class cohorts: expected-direction classification rate,1,,,LODO models,ChenBY_2023,168,42,0.0498679257812825
+ShalonD_2023,Healthy-only,H-only,29,29,0,14,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.482758620689655,,,LODO models,ChenBY_2023,168,42,0.0498679257812825
+SunBY_2021,Mixed,CC,18,6,12,,AUC,"Case-control cohorts
+(AUC)",0.930555555555556,,,LODO models,ChenBY_2023,168,42,0.0498679257812825
+BelstromD_2021,Mixed,CC,78,36,42,,AUC,"Case-control cohorts
+(AUC)",0.828042328042328,,,LODO models,ZellerG_2014,175,40,0.0491677612031796
+BritoIL_2016,Healthy-only,H-only,115,115,0,39,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.339130434782609,,,LODO models,ZellerG_2014,175,40,0.0491677612031796
+CaselliE_2020,Healthy-only,H-only,54,54,0,43,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.796296296296296,,,LODO models,ZellerG_2014,175,40,0.0491677612031796
+ChenQB_2024,Mixed,CC,90,19,71,,AUC,"Case-control cohorts
+(AUC)",0.625648628613788,,,LODO models,ZellerG_2014,175,40,0.0491677612031796
+KartalE_2022,Mixed,CC,44,17,27,,AUC,"Case-control cohorts
+(AUC)",0.363834422657952,,,LODO models,ZellerG_2014,175,40,0.0491677612031796
+Koohi-MoghadamM_2024,Mixed,CC,20,11,9,,AUC,"Case-control cohorts
+(AUC)",0.858585858585859,,,LODO models,ZellerG_2014,175,40,0.0491677612031796
+LassalleF_2017,Healthy-only,H-only,24,24,0,1,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.0416666666666667,,,LODO models,ZellerG_2014,175,40,0.0491677612031796
+NagataN_2022,Mixed,CC,282,235,47,,AUC,"Case-control cohorts
+(AUC)",0.613218650973291,,,LODO models,ZellerG_2014,175,40,0.0491677612031796
+PlachokovaA_2021,Disease-only,D-only,7,0,7,7,Disease CCR,Single-class cohorts: expected-direction classification rate,1,,,LODO models,ZellerG_2014,175,40,0.0491677612031796
+ShalonD_2023,Healthy-only,H-only,29,29,0,14,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.482758620689655,,,LODO models,ZellerG_2014,175,40,0.0491677612031796
+SunBY_2021,Mixed,CC,18,6,12,,AUC,"Case-control cohorts
+(AUC)",0.888888888888889,,,LODO models,ZellerG_2014,175,40,0.0491677612031796
+BelstromD_2021,Mixed,CC,78,36,42,,AUC,"Case-control cohorts
+(AUC)",0.840608465608466,,,LODO models,BuschartA_2016,176,46,0.0441739967186967
+BritoIL_2016,Healthy-only,H-only,115,115,0,56,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.486956521739131,,,LODO models,BuschartA_2016,176,46,0.0441739967186967
+CaselliE_2020,Healthy-only,H-only,54,54,0,41,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.759259259259259,,,LODO models,BuschartA_2016,176,46,0.0441739967186967
+ChenQB_2024,Mixed,CC,90,19,71,,AUC,"Case-control cohorts
+(AUC)",0.633061527057079,,,LODO models,BuschartA_2016,176,46,0.0441739967186967
+KartalE_2022,Mixed,CC,44,17,27,,AUC,"Case-control cohorts
+(AUC)",0.363834422657952,,,LODO models,BuschartA_2016,176,46,0.0441739967186967
+Koohi-MoghadamM_2024,Mixed,CC,20,11,9,,AUC,"Case-control cohorts
+(AUC)",0.909090909090909,,,LODO models,BuschartA_2016,176,46,0.0441739967186967
+LassalleF_2017,Healthy-only,H-only,24,24,0,3,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.125,,,LODO models,BuschartA_2016,176,46,0.0441739967186967
+NagataN_2022,Mixed,CC,282,235,47,,AUC,"Case-control cohorts
+(AUC)",0.618107741059303,,,LODO models,BuschartA_2016,176,46,0.0441739967186967
+PlachokovaA_2021,Disease-only,D-only,7,0,7,6,Disease CCR,Single-class cohorts: expected-direction classification rate,0.857142857142857,,,LODO models,BuschartA_2016,176,46,0.0441739967186967
+ShalonD_2023,Healthy-only,H-only,29,29,0,14,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.482758620689655,,,LODO models,BuschartA_2016,176,46,0.0441739967186967
+SunBY_2021,Mixed,CC,18,6,12,,AUC,"Case-control cohorts
+(AUC)",0.930555555555556,,,LODO models,BuschartA_2016,176,46,0.0441739967186967
+BelstromD_2021,Mixed,CC,78,36,42,,AUC,"Case-control cohorts
+(AUC)",0.82473544973545,,,LODO models,VQuintanaL_2024,172,45,0.0453596050839319
+BritoIL_2016,Healthy-only,H-only,115,115,0,35,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.304347826086957,,,LODO models,VQuintanaL_2024,172,45,0.0453596050839319
+CaselliE_2020,Healthy-only,H-only,54,54,0,40,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.740740740740741,,,LODO models,VQuintanaL_2024,172,45,0.0453596050839319
+ChenQB_2024,Mixed,CC,90,19,71,,AUC,"Case-control cohorts
+(AUC)",0.627131208302446,,,LODO models,VQuintanaL_2024,172,45,0.0453596050839319
+KartalE_2022,Mixed,CC,44,17,27,,AUC,"Case-control cohorts
+(AUC)",0.313725490196078,,,LODO models,VQuintanaL_2024,172,45,0.0453596050839319
+Koohi-MoghadamM_2024,Mixed,CC,20,11,9,,AUC,"Case-control cohorts
+(AUC)",0.929292929292929,,,LODO models,VQuintanaL_2024,172,45,0.0453596050839319
+LassalleF_2017,Healthy-only,H-only,24,24,0,2,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.0833333333333333,,,LODO models,VQuintanaL_2024,172,45,0.0453596050839319
+NagataN_2022,Mixed,CC,282,235,47,,AUC,"Case-control cohorts
+(AUC)",0.625169760072431,,,LODO models,VQuintanaL_2024,172,45,0.0453596050839319
+PlachokovaA_2021,Disease-only,D-only,7,0,7,7,Disease CCR,Single-class cohorts: expected-direction classification rate,1,,,LODO models,VQuintanaL_2024,172,45,0.0453596050839319
+ShalonD_2023,Healthy-only,H-only,29,29,0,14,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.482758620689655,,,LODO models,VQuintanaL_2024,172,45,0.0453596050839319
+SunBY_2021,Mixed,CC,18,6,12,,AUC,"Case-control cohorts
+(AUC)",0.930555555555556,,,LODO models,VQuintanaL_2024,172,45,0.0453596050839319
+BelstromD_2021,Mixed,CC,78,36,42,,AUC,"Case-control cohorts
+(AUC)",0.801587301587302,,,LODO models,ShaiberA_2020,174,48,0.0397471901633434
+BritoIL_2016,Healthy-only,H-only,115,115,0,34,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.295652173913044,,,LODO models,ShaiberA_2020,174,48,0.0397471901633434
+CaselliE_2020,Healthy-only,H-only,54,54,0,40,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.740740740740741,,,LODO models,ShaiberA_2020,174,48,0.0397471901633434
+ChenQB_2024,Mixed,CC,90,19,71,,AUC,"Case-control cohorts
+(AUC)",0.630096367679763,,,LODO models,ShaiberA_2020,174,48,0.0397471901633434
+KartalE_2022,Mixed,CC,44,17,27,,AUC,"Case-control cohorts
+(AUC)",0.337690631808279,,,LODO models,ShaiberA_2020,174,48,0.0397471901633434
+Koohi-MoghadamM_2024,Mixed,CC,20,11,9,,AUC,"Case-control cohorts
+(AUC)",0.878787878787879,,,LODO models,ShaiberA_2020,174,48,0.0397471901633434
+LassalleF_2017,Healthy-only,H-only,24,24,0,3,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.125,,,LODO models,ShaiberA_2020,174,48,0.0397471901633434
+NagataN_2022,Mixed,CC,282,235,47,,AUC,"Case-control cohorts
+(AUC)",0.624083295608873,,,LODO models,ShaiberA_2020,174,48,0.0397471901633434
+PlachokovaA_2021,Disease-only,D-only,7,0,7,7,Disease CCR,Single-class cohorts: expected-direction classification rate,1,,,LODO models,ShaiberA_2020,174,48,0.0397471901633434
+ShalonD_2023,Healthy-only,H-only,29,29,0,12,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.413793103448276,,,LODO models,ShaiberA_2020,174,48,0.0397471901633434
+SunBY_2021,Mixed,CC,18,6,12,,AUC,"Case-control cohorts
+(AUC)",0.930555555555556,,,LODO models,ShaiberA_2020,174,48,0.0397471901633434
+BelstromD_2021,Mixed,CC,78,36,42,,AUC,"Case-control cohorts
+(AUC)",0.837301587301587,,,LODO models,JiangQ_2021,171,48,0.0428434625517111
+BritoIL_2016,Healthy-only,H-only,115,115,0,42,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.365217391304348,,,LODO models,JiangQ_2021,171,48,0.0428434625517111
+CaselliE_2020,Healthy-only,H-only,54,54,0,44,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.814814814814815,,,LODO models,JiangQ_2021,171,48,0.0428434625517111
+ChenQB_2024,Mixed,CC,90,19,71,,AUC,"Case-control cohorts
+(AUC)",0.622683469236471,,,LODO models,JiangQ_2021,171,48,0.0428434625517111
+KartalE_2022,Mixed,CC,44,17,27,,AUC,"Case-control cohorts
+(AUC)",0.359477124183007,,,LODO models,JiangQ_2021,171,48,0.0428434625517111
+Koohi-MoghadamM_2024,Mixed,CC,20,11,9,,AUC,"Case-control cohorts
+(AUC)",0.919191919191919,,,LODO models,JiangQ_2021,171,48,0.0428434625517111
+LassalleF_2017,Healthy-only,H-only,24,24,0,3,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.125,,,LODO models,JiangQ_2021,171,48,0.0428434625517111
+NagataN_2022,Mixed,CC,282,235,47,,AUC,"Case-control cohorts
+(AUC)",0.614848347668628,,,LODO models,JiangQ_2021,171,48,0.0428434625517111
+PlachokovaA_2021,Disease-only,D-only,7,0,7,7,Disease CCR,Single-class cohorts: expected-direction classification rate,1,,,LODO models,JiangQ_2021,171,48,0.0428434625517111
+ShalonD_2023,Healthy-only,H-only,29,29,0,14,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.482758620689655,,,LODO models,JiangQ_2021,171,48,0.0428434625517111
+SunBY_2021,Mixed,CC,18,6,12,,AUC,"Case-control cohorts
+(AUC)",0.930555555555556,,,LODO models,JiangQ_2021,171,48,0.0428434625517111
+BelstromD_2021,Mixed,CC,78,36,42,,AUC,"Case-control cohorts
+(AUC)",0.82473544973545,,,LODO models,BelstromD_2017,173,40,0.0460169754679274
+BritoIL_2016,Healthy-only,H-only,115,115,0,43,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.373913043478261,,,LODO models,BelstromD_2017,173,40,0.0460169754679274
+CaselliE_2020,Healthy-only,H-only,54,54,0,43,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.796296296296296,,,LODO models,BelstromD_2017,173,40,0.0460169754679274
+ChenQB_2024,Mixed,CC,90,19,71,,AUC,"Case-control cohorts
+(AUC)",0.664195700518903,,,LODO models,BelstromD_2017,173,40,0.0460169754679274
+KartalE_2022,Mixed,CC,44,17,27,,AUC,"Case-control cohorts
+(AUC)",0.352941176470588,,,LODO models,BelstromD_2017,173,40,0.0460169754679274
+Koohi-MoghadamM_2024,Mixed,CC,20,11,9,,AUC,"Case-control cohorts
+(AUC)",0.919191919191919,,,LODO models,BelstromD_2017,173,40,0.0460169754679274
+LassalleF_2017,Healthy-only,H-only,24,24,0,2,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.0833333333333333,,,LODO models,BelstromD_2017,173,40,0.0460169754679274
+NagataN_2022,Mixed,CC,282,235,47,,AUC,"Case-control cohorts
+(AUC)",0.623992756903576,,,LODO models,BelstromD_2017,173,40,0.0460169754679274
+PlachokovaA_2021,Disease-only,D-only,7,0,7,7,Disease CCR,Single-class cohorts: expected-direction classification rate,1,,,LODO models,BelstromD_2017,173,40,0.0460169754679274
+ShalonD_2023,Healthy-only,H-only,29,29,0,14,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.482758620689655,,,LODO models,BelstromD_2017,173,40,0.0460169754679274
+SunBY_2021,Mixed,CC,18,6,12,,AUC,"Case-control cohorts
+(AUC)",0.902777777777778,,,LODO models,BelstromD_2017,173,40,0.0460169754679274
+BelstromD_2021,Mixed,CC,78,36,42,,AUC,"Case-control cohorts
+(AUC)",0.816798941798942,,,LODO models,LiYJ_2023,173,52,0.0344486396213317
+BritoIL_2016,Healthy-only,H-only,115,115,0,40,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.347826086956522,,,LODO models,LiYJ_2023,173,52,0.0344486396213317
+CaselliE_2020,Healthy-only,H-only,54,54,0,44,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.814814814814815,,,LODO models,LiYJ_2023,173,52,0.0344486396213317
+ChenQB_2024,Mixed,CC,90,19,71,,AUC,"Case-control cohorts
+(AUC)",0.623424759080801,,,LODO models,LiYJ_2023,173,52,0.0344486396213317
+KartalE_2022,Mixed,CC,44,17,27,,AUC,"Case-control cohorts
+(AUC)",0.34640522875817,,,LODO models,LiYJ_2023,173,52,0.0344486396213317
+Koohi-MoghadamM_2024,Mixed,CC,20,11,9,,AUC,"Case-control cohorts
+(AUC)",0.898989898989899,,,LODO models,LiYJ_2023,173,52,0.0344486396213317
+LassalleF_2017,Healthy-only,H-only,24,24,0,2,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.0833333333333333,,,LODO models,LiYJ_2023,173,52,0.0344486396213317
+NagataN_2022,Mixed,CC,282,235,47,,AUC,"Case-control cohorts
+(AUC)",0.617836124943413,,,LODO models,LiYJ_2023,173,52,0.0344486396213317
+PlachokovaA_2021,Disease-only,D-only,7,0,7,7,Disease CCR,Single-class cohorts: expected-direction classification rate,1,,,LODO models,LiYJ_2023,173,52,0.0344486396213317
+ShalonD_2023,Healthy-only,H-only,29,29,0,14,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.482758620689655,,,LODO models,LiYJ_2023,173,52,0.0344486396213317
+SunBY_2021,Mixed,CC,18,6,12,,AUC,"Case-control cohorts
+(AUC)",0.930555555555556,,,LODO models,LiYJ_2023,173,52,0.0344486396213317
+BelstromD_2021,Mixed,CC,78,36,42,,AUC,"Case-control cohorts
+(AUC)",0.799603174603175,,,LODO models,Castro-NallarE_2015,177,50,0.0351797697246408
+BritoIL_2016,Healthy-only,H-only,115,115,0,43,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.373913043478261,,,LODO models,Castro-NallarE_2015,177,50,0.0351797697246408
+CaselliE_2020,Healthy-only,H-only,54,54,0,44,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.814814814814815,,,LODO models,Castro-NallarE_2015,177,50,0.0351797697246408
+ChenQB_2024,Mixed,CC,90,19,71,,AUC,"Case-control cohorts
+(AUC)",0.620459599703484,,,LODO models,Castro-NallarE_2015,177,50,0.0351797697246408
+KartalE_2022,Mixed,CC,44,17,27,,AUC,"Case-control cohorts
+(AUC)",0.324618736383442,,,LODO models,Castro-NallarE_2015,177,50,0.0351797697246408
+Koohi-MoghadamM_2024,Mixed,CC,20,11,9,,AUC,"Case-control cohorts
+(AUC)",0.878787878787879,,,LODO models,Castro-NallarE_2015,177,50,0.0351797697246408
+LassalleF_2017,Healthy-only,H-only,24,24,0,2,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.0833333333333333,,,LODO models,Castro-NallarE_2015,177,50,0.0351797697246408
+NagataN_2022,Mixed,CC,282,235,47,,AUC,"Case-control cohorts
+(AUC)",0.623087369850611,,,LODO models,Castro-NallarE_2015,177,50,0.0351797697246408
+PlachokovaA_2021,Disease-only,D-only,7,0,7,6,Disease CCR,Single-class cohorts: expected-direction classification rate,0.857142857142857,,,LODO models,Castro-NallarE_2015,177,50,0.0351797697246408
+ShalonD_2023,Healthy-only,H-only,29,29,0,14,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.482758620689655,,,LODO models,Castro-NallarE_2015,177,50,0.0351797697246408
+SunBY_2021,Mixed,CC,18,6,12,,AUC,"Case-control cohorts
+(AUC)",0.916666666666667,,,LODO models,Castro-NallarE_2015,177,50,0.0351797697246408
+BelstromD_2021,Mixed,CC,78,36,42,,AUC,"Case-control cohorts
+(AUC)",0.822751322751323,,,LODO models,ArmstrongA_2021,174,40,0.0438978017170677
+BritoIL_2016,Healthy-only,H-only,115,115,0,38,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.330434782608696,,,LODO models,ArmstrongA_2021,174,40,0.0438978017170677
+CaselliE_2020,Healthy-only,H-only,54,54,0,40,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.740740740740741,,,LODO models,ArmstrongA_2021,174,40,0.0438978017170677
+ChenQB_2024,Mixed,CC,90,19,71,,AUC,"Case-control cohorts
+(AUC)",0.638991845811712,,,LODO models,ArmstrongA_2021,174,40,0.0438978017170677
+KartalE_2022,Mixed,CC,44,17,27,,AUC,"Case-control cohorts
+(AUC)",0.348583877995643,,,LODO models,ArmstrongA_2021,174,40,0.0438978017170677
+Koohi-MoghadamM_2024,Mixed,CC,20,11,9,,AUC,"Case-control cohorts
+(AUC)",0.868686868686869,,,LODO models,ArmstrongA_2021,174,40,0.0438978017170677
+LassalleF_2017,Healthy-only,H-only,24,24,0,2,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.0833333333333333,,,LODO models,ArmstrongA_2021,174,40,0.0438978017170677
+NagataN_2022,Mixed,CC,282,235,47,,AUC,"Case-control cohorts
+(AUC)",0.619375282933454,,,LODO models,ArmstrongA_2021,174,40,0.0438978017170677
+PlachokovaA_2021,Disease-only,D-only,7,0,7,7,Disease CCR,Single-class cohorts: expected-direction classification rate,1,,,LODO models,ArmstrongA_2021,174,40,0.0438978017170677
+ShalonD_2023,Healthy-only,H-only,29,29,0,14,Healthy CCR,"Single-class cohorts
+(Expected-direction rate)",0.482758620689655,,,LODO models,ArmstrongA_2021,174,40,0.0438978017170677
+SunBY_2021,Mixed,CC,18,6,12,,AUC,"Case-control cohorts
+(AUC)",0.930555555555556,,,LODO models,ArmstrongA_2021,174,40,0.0438978017170677

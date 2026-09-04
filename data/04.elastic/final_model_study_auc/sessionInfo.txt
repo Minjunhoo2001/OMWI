@@ -1,0 +1,31 @@
+R version 4.4.1 (2024-06-14 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 11 x64 (build 26200)
+
+Matrix products: default
+
+
+locale:
+[1] LC_COLLATE=Chinese (Simplified)_China.utf8  LC_CTYPE=Chinese (Simplified)_China.utf8   
+[3] LC_MONETARY=Chinese (Simplified)_China.utf8 LC_NUMERIC=C                               
+[5] LC_TIME=Chinese (Simplified)_China.utf8    
+
+time zone: Asia/Shanghai
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] ggpubr_0.6.0      purrr_1.0.2       tidyr_1.3.1       forcats_1.0.0     scales_1.4.0      PRROC_1.4        
+ [7] rlang_1.1.7       pROC_1.18.5       patchwork_1.3.0   stringr_1.5.1     ggplot2_4.0.0     dplyr_1.1.4      
+[13] data.table_1.16.4
+
+loaded via a namespace (and not attached):
+ [1] bit_4.5.0.1        gtable_0.3.6       ggsignif_0.6.4     compiler_4.4.1     tidyselect_1.2.1   Rcpp_1.0.13       
+ [7] dichromat_2.0-0.1  textshaping_1.0.0  systemfonts_1.2.1  R6_2.5.1           plyr_1.8.9         labeling_0.4.3    
+[13] generics_0.1.3     Formula_1.2-5      backports_1.5.0    tibble_3.2.1       car_3.1-3          svglite_2.1.3     
+[19] pillar_1.10.1      RColorBrewer_1.1-3 utf8_1.2.4         broom_1.0.7        stringi_1.8.4      S7_0.2.0          
+[25] bit64_4.6.0-1      cli_3.6.5          withr_3.0.2        magrittr_2.0.3     grid_4.4.1         rstudioapi_0.17.1 
+[31] lifecycle_1.0.4    vctrs_0.6.5        rstatix_0.7.2      glue_1.7.0         farver_2.1.2       ragg_1.5.0        
+[37] abind_1.4-8        carData_3.0-5      tools_4.4.1        pkgconfig_2.0.3   

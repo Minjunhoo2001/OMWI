@@ -1,0 +1,2 @@
+set,study,cohort_type,phenotypes,n_total,n_healthy,n_disease,min_class_n,small_class_flag,median_OMWI_healthy,median_OMWI_disease,auc,ci_lower,ci_upper,exclusion_reason
+Training,ZhuJY_2023,Case-control,BMI low,74,73,1,1,TRUE,0.495129379001781,-0.845958305,1,,,Excluded from study-specific AUC: only 1 diseased sample
