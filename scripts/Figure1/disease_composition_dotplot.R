@@ -118,7 +118,7 @@ p <- ggplot(plot_dat, aes(x = Samples_Num, y = Condition)) +
 p
 
 ggsave(
-  "/share/home/HeMinjun/metagenomic/GitHub/results/Figure1/Disease_composition_dot/panel_condition_dotplot_study_column.pdf",
+  file.path(Sys.getenv("OMWI_RESULTS_DIR", unset = "results"), "Figure1/Disease_composition_dot/panel_condition_dotplot_study_column.pdf"),
   p,
   width = 7,
   height = 4,
@@ -126,7 +126,7 @@ ggsave(
 )
 
 ggsave(
-  "/share/home/HeMinjun/metagenomic/GitHub/results/Figure1/Disease_composition_dot/panel_condition_dotplot_study_column.png",
+  file.path(Sys.getenv("OMWI_RESULTS_DIR", unset = "results"), "Figure1/Disease_composition_dot/panel_condition_dotplot_study_column.png"),
   p,
   width = 7,
   height = 4,

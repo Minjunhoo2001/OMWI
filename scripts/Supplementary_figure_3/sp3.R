@@ -31,12 +31,12 @@ options(stringsAsFactors = FALSE)
 # =========================================================
 # 0. Parameters
 # =========================================================
-ROOT_DIR <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2"
+ROOT_DIR <- Sys.getenv("OMWI_PROJECT_DIR", unset = "path/to/project_data")
 
 SPLIT_DIR <- file.path(ROOT_DIR, "01.split64")
 OMWI_DIR  <- file.path(ROOT_DIR, "04.lasso64", "omwi_scores")
 
-OUT_DIR   <- "/share/home/HeMinjun/metagenomic/GitHub/results/Supplementary_Figure_3"
+OUT_DIR   <- file.path(Sys.getenv("OMWI_RESULTS_DIR", unset = "results"), "Supplementary_Figure_3")
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
 dir.create(file.path(OUT_DIR, "plots_focus"), showWarnings = FALSE, recursive = TRUE)
 dir.create(file.path(OUT_DIR, "plots_focus", "categorical"), showWarnings = FALSE, recursive = TRUE)

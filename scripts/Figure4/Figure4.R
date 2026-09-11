@@ -17,8 +17,8 @@ options(stringsAsFactors = FALSE)
 # =========================================================
 # 0. 路径
 # =========================================================
-OMWI_DIR <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/04.lasso64/omwi_scores"
-OUT_DIR  <- "/share/home/HeMinjun/metagenomic/GitHub/results/Figure4"
+OMWI_DIR <- file.path(Sys.getenv("OMWI_MODEL_DIR", unset = "path/to/model_outputs"), "omwi_scores")
+OUT_DIR  <- file.path(Sys.getenv("OMWI_RESULTS_DIR", unset = "results"), "Figure4")
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
 
 LEVEL_TO_USE <- "species"

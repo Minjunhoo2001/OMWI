@@ -8,10 +8,10 @@ suppressPackageStartupMessages({
 # =========================================================
 # 0. 路径
 # =========================================================
-TAX_FILE <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/00.input/level/taxonomy_species.tsv"
-META_FILE <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/00.input/metadata6.0.csv"
+TAX_FILE <- file.path(Sys.getenv("OMWI_PROJECT_DIR", unset = "path/to/project_data"), "00.input/level/taxonomy_species.tsv")
+META_FILE <- file.path(Sys.getenv("OMWI_PROJECT_DIR", unset = "path/to/project_data"), "00.input/metadata6.0.csv")
 
-OUT_DIR <- "/share/home/HeMinjun/metagenomic/GitHub/results/PCoA_body_site_species"
+OUT_DIR <- file.path(Sys.getenv("OMWI_RESULTS_DIR", unset = "results"), "PCoA_body_site_species")
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
 
 set.seed(704)

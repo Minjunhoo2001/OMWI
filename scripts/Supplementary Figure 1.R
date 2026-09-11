@@ -36,7 +36,7 @@ options(error = function() {
 # 0. Locate project scripts
 # ============================================================
 
-script_dir <- "/share/home/HeMinjun/metagenomic/GitHub/scripts"
+script_dir <- Sys.getenv("OMWI_SCRIPTS_DIR", unset = "scripts")
 utils_dir <- file.path(script_dir, "utils")
 
 source(file.path(utils_dir, "io_utils.R"))
@@ -48,10 +48,10 @@ source(file.path(utils_dir, "plot_utils.R"))
 # ============================================================
 
 defaults <- list(
-  raw_dir = "/share/home/HeMinjun/metagenomic/GitHub/data/02.by_level",
-  batch_dir = "/share/home/HeMinjun/metagenomic/GitHub/data/03.batch_train",
-  meta_dir = "/share/home/HeMinjun/metagenomic/GitHub/data/01.split",
-  out_dir = "/share/home/HeMinjun/metagenomic/GitHub/results/Supplementary_Figure_1",
+  raw_dir = Sys.getenv("OMWI_RAW_DATA_DIR", unset = "data/02.by_level"),
+  batch_dir = Sys.getenv("OMWI_BATCH_DATA_DIR", unset = "data/03.batch_train"),
+  meta_dir = Sys.getenv("OMWI_METADATA_DIR", unset = "data/01.split"),
+  out_dir = file.path(Sys.getenv("OMWI_RESULTS_DIR", unset = "results"), "Supplementary_Figure_1"),
   level = "species",
   batch_var = "study_name",
   disease_var = "disease",

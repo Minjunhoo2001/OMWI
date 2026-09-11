@@ -14,14 +14,14 @@ options(stringsAsFactors = FALSE)
 # =========================================================
 # 0. Path settings
 # =========================================================
-ROOT_DIR <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/04.lasso64"
+ROOT_DIR <- Sys.getenv("OMWI_MODEL_DIR", unset = "path/to/model_outputs")
 
 COEF_DIR      <- file.path(ROOT_DIR, "coefficients")
 OMWI_DIR      <- file.path(ROOT_DIR, "omwi_scores")
 CV_OOF_DIR    <- file.path(ROOT_DIR, "cv_oof")
 LOOCV_OOF_DIR <- file.path(ROOT_DIR, "loocv_oof")
 
-OUT_DIR <- "/share/home/HeMinjun/metagenomic/GitHub/results/Figure2"
+OUT_DIR <- file.path(Sys.getenv("OMWI_RESULTS_DIR", unset = "results"), "Figure2")
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
 
 LEVEL <- "species"

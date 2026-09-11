@@ -10,12 +10,12 @@ suppressPackageStartupMessages({
 # =========================================================
 # 0. File paths
 # =========================================================
-loocv_file <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/04.lasso64/loocv_oof/OOF_LOOCV_species_alpha050_best_model.csv"
-cv_file    <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/04.lasso64/cv_oof/OOF_10fold_repeated_species_alpha050_best_model.csv"
-train_file <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/04.lasso64/omwi_scores/OMWI_train_species_alpha050.csv"
-validation_file <- "/share/home/HeMinjun/metagenomic/Oral_proxy_v2/04.lasso64/omwi_scores/OMWI_test_species_alpha050.csv"
+loocv_file <- file.path(Sys.getenv("OMWI_MODEL_DIR", unset = "path/to/model_outputs"), "loocv_oof/OOF_LOOCV_species_alpha050_best_model.csv")
+cv_file    <- file.path(Sys.getenv("OMWI_MODEL_DIR", unset = "path/to/model_outputs"), "cv_oof/OOF_10fold_repeated_species_alpha050_best_model.csv")
+train_file <- file.path(Sys.getenv("OMWI_MODEL_DIR", unset = "path/to/model_outputs"), "omwi_scores/OMWI_train_species_alpha050.csv")
+validation_file <- file.path(Sys.getenv("OMWI_MODEL_DIR", unset = "path/to/model_outputs"), "omwi_scores/OMWI_test_species_alpha050.csv")
 
-out_dir <- "/share/home/HeMinjun/metagenomic/GitHub/results/Figure2"
+out_dir <- file.path(Sys.getenv("OMWI_RESULTS_DIR", unset = "results"), "Figure2")
 dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 
 # =========================================================
