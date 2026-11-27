@@ -1,65 +1,96 @@
 # OMWI: Oral Microbiome Wellness Index
 
 <p align="center">
-  <img src="images/OMWI-profile.png" width="820" alt="Overview of the Oral Microbiome Wellness Index">
+  <img src="images/OMWI-profile.png" width="900" alt="Overview of the Oral Microbiome Wellness Index">
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-1B9E77" alt="MIT license"></a>
-  <img src="https://img.shields.io/badge/MetaPhlAn-4-4DBBD5" alt="MetaPhlAn 4">
+  <img src="https://img.shields.io/badge/MetaPhlAn-4.1.1-4DBBD5" alt="MetaPhlAn 4.1.1">
   <img src="https://img.shields.io/badge/Language-R%20%7C%20Python-3C5488" alt="R and Python">
-  <img src="https://img.shields.io/badge/Platform-Linux%20%7C%20HPC-64748B" alt="Linux and HPC">
-  <img src="https://img.shields.io/badge/Status-Beta-lightgrey" alt="Beta">
+  <img src="https://img.shields.io/badge/Model-80%20species-1B9E77" alt="80 species">
 </p>
 
 <p align="center">
-  <a href="#quick-start">Quick start</a> &nbsp;·&nbsp;
-  <a href="#usage">Usage</a> &nbsp;·&nbsp;
-  <a href="#score-interpretation">Score interpretation</a> &nbsp;·&nbsp;
-  <a href="#data-and-reproducibility">Data &amp; reproducibility</a> &nbsp;·&nbsp;
-  <a href="#citation">Citation</a>
+  <a href="#installation">Installation</a> · <a href="#quick-start">Quick start</a> · <a href="#usage">Usage</a> · <a href="#score-interpretation">Score interpretation</a> · <a href="#data-and-reproducibility">Reproducibility</a> · <a href="#citation">Citation</a>
 </p>
 
 ## Overview
 
-The **Oral Microbiome Wellness Index (OMWI)** is a disease-agnostic, biologically interpretable score derived from human oral shotgun metagenomic profiles. It quantifies the extent to which an oral microbial community resembles a health-associated reference state.
+The **Oral Microbiome Wellness Index (OMWI)** is a continuous, disease-agnostic score that quantifies the extent to which an individual's oral microbiome profile resembles health-associated versus non-healthy-associated microbial patterns. The frozen model uses 80 species-level features (39 positively weighted and 41 negatively weighted) and elastic-net logistic regression. It was developed using 1,077 samples from 17 studies and independently evaluated on 716 samples from 11 studies. No batch correction or model refitting is required for scoring new samples.
 
-OMWI uses species-level taxonomic profiles and an elastic-net logistic regression model to generate a continuous score. The repository provides both an OMWI scoring workflow and data and analytical scripts from the study.
+The model was developed using saliva, tongue dorsum, pharyngeal swab and oral rinse shotgun metagenomes. Transferability to dental plaque and other oral niches is not established. **For research use only.** OMWI is not a clinical diagnostic test or a calibrated measure of individual disease risk.
 
-> **Research use only.** OMWI is not a clinical diagnostic test and does not predict the presence of any specific disease or directly measure overall clinical wellness.
+## Installation
 
-> **Repository status:** The currently distributed model and study data correspond to the earlier analysis version. Revised study data and model files will be provided together once finalized.
-
-## Quick start
-
-The fastest way to calculate OMWI is to use an existing species-level abundance table. If starting from raw sequencing reads, use the full workflow described below.
+Clone the repository and run the commands from its root directory:
 
 ```bash
 git clone https://github.com/Minjunhoo2001/OMWI.git
 cd OMWI
-conda env create -f environment.yml
-conda activate omwi_env
-bash workflow/test_installation.sh
 ```
 
-The full workflow is intended for Linux or HPC environments. Scoring an existing species-level table requires R and `data.table` and does not require the reference databases.
+### Scoring from existing abundance profiles
+
+Only R (R 4.4 recommended; study used R 4.4.3) and `data.table` are required. Install the package in R if needed:
+
+```r
+install.packages("data.table", repos = "https://cloud.r-project.org")
+```
+
+### Full workflow from FASTQ (Linux/HPC)
+
+Install the optional sequencing tools using Conda:
+
+```bash
+conda env create -f environment.yml
+conda activate omwi_env
+```
+
+The reference databases are not bundled with the repository; see the FASTQ tutorial below. If using the manuscript analysis scripts, install the additional packages listed in [manuscript/README.md](manuscript/README.md).
+
+## Quick start
+
+Test the frozen scoring model using the included synthetic profiles:
+
+```bash
+Rscript scripts/test_scoring.R
+```
+
+A successful check prints `Synthetic score parity passed.` To generate the scores yourself:
+
+```bash
+Rscript scripts/calc_omwi.R \
+  --input example/example_species_abundance.tsv \
+  --output omwi_scores.tsv
+```
+
+Compare the OMWI values with [expected_omwi_scores.tsv](example/expected_omwi_scores.tsv):
+
+| Sample | OMWI (rounded) |
+| :--- | ---: |
+| synthetic_positive_weighted | 0.124696 |
+| synthetic_negative_weighted | -4.698319 |
+| synthetic_sparse | -2.472806 |
+
+These are synthetic examples, not clinical samples.
 
 ## Usage
 
-### Option 1. Calculate OMWI from taxonomic profiles
+### Option 1. Calculate OMWI from species-level abundance profiles
 
-Provide a tab-delimited **species-by-sample** relative abundance table. The first column contains species names; the remaining columns contain sample abundances.
+Use MetaPhlAn **4.1.1** with marker database `mpa_vJun23_CHOCOPhlAnSGB_202403`. Provide a tab-delimited species-by-sample table with a header: the first column contains species identifiers, and the remaining columns contain unique sample IDs and nonnegative relative abundances. Use the original, untransformed abundance values, either proportions (0–1) or percentages (0–100), on a consistent scale within each sample. The fixed-panel normalization makes these scales equivalent.
 
-Example input (illustrative format only):
+Illustrative input format (only three rows shown; use a complete measured profile in practice):
 
 ```text
 feature	sample01	sample02
-Neisseria_subflava	0.012	0.004
-Streptococcus_sanguinis	0.003	0.001
-Tannerella_forsythia	0.000	0.005
+Streptococcus_mitis	0.012	0.004
+Neisseria_subflava	0.003	0.001
+Fusobacterium_nucleatum	0.000	0.005
 ```
 
-Use actual tab characters between columns and provide the full species profile, not just the illustrative species above. Proportion-scale abundances (0–1) are recommended to avoid ambiguity in the current script's automatic unit detection.
+Use the exact MetaPhlAn species identifiers (including underscores and any species-level SGB identifiers) from [the model panel](models/omwi_species_universe.tsv). Full species-level clade names ending in `s__...` are also accepted. Do not use genus-level profiles, strain-level rows, 16S amplicon profiles, CLR-transformed values, or different taxonomy identifiers as substitutes. Include all detected species; missing panel species are filled with zero. A profile needs measurable panel signal for meaningful biological interpretation.
 
 ```bash
 Rscript scripts/calc_omwi.R \
@@ -70,52 +101,55 @@ Rscript scripts/calc_omwi.R \
 ```
 
 <details>
-<summary><b>Starting from a merged MetaPhlAn4 profile?</b></summary>
+<summary><b>Starting from MetaPhlAn4 sample profiles?</b></summary>
 
-Extract species-level abundances first:
+Merge the individual profiles (replace the example paths with your files):
+
+```bash
+merge_metaphlan_tables.py profiles/*.tsv > metaphlan4_merged.tsv
+```
+
+If you already have a merged profile, skip that command. Extract species-level rows (requires Python and `pandas`):
 
 ```bash
 python scripts/metaphlan_level_extractor.py metaphlan4_merged.tsv level
+Rscript scripts/calc_omwi.R \
+  --input level/metaphlan4_merged_species.tsv \
+  --output omwi_scores.tsv
 ```
-
-Then use `level/metaphlan4_merged_species.tsv` as the input to the scoring command above.
-
-Use the MetaPhlAn version and marker database specified in the [model configuration](models/model_config.yml). A previously generated merged profile is available in [test_results_env/04.merged/](test_results_env/04.merged/) for inspecting the expected format.
 
 </details>
 
 ### Option 2. Calculate OMWI from paired-end FASTQ files
 
-The full workflow performs quality control, human read removal, taxonomic profiling and OMWI calculation.
+The optional Linux/HPC workflow performs read quality control, human read removal, species profiling and scoring.
 
 ```mermaid
 flowchart LR
-    A["Paired-end FASTQ"] --> B["fastp"]
-    B --> C["Bowtie2 / GRCh38"]
-    C --> D["MetaPhlAn4"]
-    D --> E["Fixed universe + CLR"]
-    E --> F["OMWI score"]
+    A[Paired-end FASTQ] --> B[fastp]
+    B --> C[Bowtie2 / GRCh38]
+    C --> D[MetaPhlAn4]
+    D --> E[80-species TSS + CLR]
+    E --> F[OMWI score]
 ```
 
-<details>
-<summary><b>Database configuration</b></summary>
-
-The full workflow requires the following external databases, which are not included in this repository:
-
-- A GRCh38 Bowtie2 index for human read removal.
-- MetaPhlAn4 marker database: `mpa_vJun23_CHOCOPhlAnSGB_202403`.
+**1. Configure external reference databases.** Prepare a GRCh38 Bowtie2 index and install the matching MetaPhlAn4 database. For example, download and build the MetaPhlAn database using its installer:
 
 ```bash
-export HOST_INDEX=/path/to/human_bowtie2_index/human_ref
-export MPA_DB=/path/to/metaphlan4_database
-export MPA_INDEX=mpa_vJun23_CHOCOPhlAnSGB_202403
+metaphlan --install --index mpa_vJun23_CHOCOPhlAnSGB_202403 \
+  --bowtie2db /path/to/metaphlan4_database
 ```
 
-`HOST_INDEX` is the Bowtie2 index prefix (e.g., `/path/to/human_ref` for `/path/to/human_ref.1.bt2`), not the directory containing the index.
+Set these environment variables to your actual paths:
 
-</details>
+```bash
+export HOST_INDEX=/path/to/GRCh38_bowtie2_index/GRCh38
+export MPA_DB=/path/to/metaphlan4_database
+```
 
-Create a tab-delimited sample sheet named `samples.tsv` with exactly these column names:
+`HOST_INDEX` is the Bowtie2 index prefix, not the directory. `MPA_DB` contains the database files for the exact model database version.
+
+**2. Prepare a sample sheet.** Copy [example/samples.tsv](example/samples.tsv) to `samples.tsv` and edit the paths. Use actual tabs, unique sample IDs, and paired-end FASTQ files:
 
 ```text
 sample_id	r1	r2
@@ -123,18 +157,18 @@ sample01	/path/to/sample01_R1.fastq.gz	/path/to/sample01_R2.fastq.gz
 sample02	/path/to/sample02_R1.fastq.gz	/path/to/sample02_R2.fastq.gz
 ```
 
-After configuring the databases, run:
+**3. Run the workflow.** Use a new output directory for each run:
 
 ```bash
-THREADS=8 bash workflow/run_omwi_pipeline.sh samples.tsv results
+THREADS=8 bash workflow/run_omwi_pipeline.sh samples.tsv omwi_run
 ```
 
-The final score table is written to `results/05.omwi/omwi_scores.tsv`.
+The score table is written to `omwi_run/05.omwi/omwi_scores.tsv`. The paired-end workflow is a convenience preprocessing route; verify sequencing quality, host removal and sufficient microbial reads before interpreting scores. The scoring test above is independent of FASTQ processing.
 
 <details>
 <summary><b>HPC / LSF submission</b></summary>
 
-An example LSF submission script is available at [submit/submit_omwi_test.lsf](submit/submit_omwi_test.lsf). Update the project directory, database paths, sample sheet and output directory before submission.
+Activate the Conda environment and export the database paths on your cluster login node. Edit [submit/submit_omwi_test.lsf](submit/submit_omwi_test.lsf) as needed, then submit from the repository root:
 
 ```bash
 bsub < submit/submit_omwi_test.lsf
@@ -144,74 +178,65 @@ bsub < submit/submit_omwi_test.lsf
 
 ## Score interpretation
 
-OMWI is the linear predictor of an elastic-net logistic regression model:
+For each sample, let $a_j$ be the original relative abundance of panel species $j$. After aligning the fixed panel and filling absent taxa with zero, the transformation is:
 
 ```math
-\mathrm{OMWI}_i = \beta_0 + \sum_{j \in S} \beta_j\,\mathrm{CLR}(x_{ij})
+p_j = \frac{a_j}{\sum_{k=1}^{80} a_k},\qquad
+z_j = \log(100p_j + 10^{-6}) - \frac{1}{80}\sum_{k=1}^{80}\log(100p_k + 10^{-6})
 ```
 
-where $S$ is the set of species with non-zero coefficients. CLR transformation uses the complete fixed species universe defined by the released model, including taxa with zero coefficients. Missing universe taxa are filled with zero abundance before the model-specific pseudocount is added.
+```math
+\mathrm{OMWI} = \beta_0 + \sum_{j=1}^{80}\beta_j z_j
+```
 
-| OMWI score | Interpretation |
+Both TSS normalization and CLR centering use **only the fixed 80 species**. The pseudocount is added on the percentage scale. The exported coefficients already incorporate the fitted model's scaling; no additional standardization is applied. No model refitting or batch correction is needed. The score is a model-derived linear predictor.
+
+| OMWI | Interpretation |
 | :--- | :--- |
-| `> 0` | More health-associated oral microbial profile |
-| `< 0` | More non-healthy-associated oral microbial profile |
-| `= 0` | Fitted model probability of 0.5; classification boundary |
+| `> 0` | More health-associated oral microbiome profile |
+| `< 0` | More non-healthy-associated oral microbiome profile |
+| `= 0` | Equal fitted odds; model-derived reference boundary |
 
-These interpretations describe microbiome-associated patterns, not clinical diagnoses or calibrated individual disease risks.
+The zero cutoff is not a clinically established threshold. An input without detectable panel taxa has no biological panel signal; see [model documentation](models/README.md).
 
-<details>
-<summary><b>Output columns</b></summary>
+### Output columns
 
 | Column | Description |
 | :--- | :--- |
 | `sample_id` | Sample identifier |
-| `OMWI` | Elastic-net linear predictor |
-| `predicted_state` | `health_associated` for scores > 0; otherwise `non_healthy_associated` |
-| `matched_universe_taxa` | Number of universe taxa matched in the input table (table-level, not per-sample detection) |
-| `total_universe_taxa` | Number of taxa in the fixed CLR universe |
-
-</details>
+| `OMWI` | Continuous score (linear predictor) |
+| `predicted_state` | `health_associated` if OMWI > 0, otherwise `non_healthy_associated` |
+| `matched_universe_taxa` | Number of panel taxa matched across the input table, not per-sample detection |
+| `total_universe_taxa` | Total panel size (80) |
+| `prob_healthy` | Fitted logistic probability, not calibrated clinical risk |
 
 ## Data and reproducibility
 
-The following directories provide the study inputs, model files and available analytical outputs. These links refer to the current repository structure.
-
 | Resource | Description |
 | :--- | :--- |
-| [Study and sample metadata](data/01.split/) | Training/external metadata and study assignments |
-| [Taxonomic profiles](data/02.by_level/) | Microbial abundance matrices across taxonomic ranks |
-| [Batch-correction data](data/03.batch_train/) | Earlier analysis version's batch-corrected training and uncorrected external profiles |
-| [Model files](models/) | Released coefficients, fixed CLR universe and model configuration |
-| [Model development and validation outputs](data/04.elastic/) | Earlier analysis version's tuning, validation and prediction files |
-| [Analytical and visualization scripts](scripts/) | Available R and Python scripts |
-| [Manuscript results](results/) | Figures, supplementary figures and associated data |
+| [models/](models/) | Frozen coefficients (including intercept), panel and model settings |
+| [scripts/](scripts/) | OMWI scoring, taxonomic extraction and scoring tests |
+| [example/](example/) | Synthetic example profiles, expected scores and FASTQ sample sheet template |
+| [workflow/](workflow/) | Optional sequencing workflow and installation test |
+| [manuscript/](manuscript/) | Study input data and available analysis scripts; see [reproducibility instructions](manuscript/README.md) for inputs and coverage |
 
-<details>
-<summary><b>Model files</b></summary>
+For checking scores against the included study predictions (no refitting):
 
-| File | Description |
-| :--- | :--- |
-| [model_config.yml](models/model_config.yml) | Model and preprocessing settings |
-| [omwi_species_coefficients.tsv](models/omwi_species_coefficients.tsv) | Intercept and non-zero species coefficients |
-| [omwi_species_coefficients_full.tsv](models/omwi_species_coefficients_full.tsv) | Full coefficient table, including zero coefficients |
-| [omwi_species_universe.tsv](models/omwi_species_universe.tsv) | Fixed feature space for CLR transformation |
-| [omwi_species_model_config.tsv](models/omwi_species_model_config.tsv) | Additional model specification |
+```bash
+(cd manuscript && unzip -n data.zip)
+Rscript scripts/test_real_sample_parity.R
+```
 
-The coefficients, species universe and preprocessing settings must be used together as a matched model version.
-
-</details>
+The independent validation predictions are generated by applying the frozen scoring model, without using external outcomes for model fitting. The manuscript analysis directory describes which additional inputs are needed for other analyses. The scoring workflow does not require these files.
 
 ## Citation
 
-If you use OMWI in your research, please cite the associated manuscript:
+If you use OMWI, please cite the associated manuscript:
 
-> An oral microbiome wellness index differentiates between healthy and non-healthy states across multiple cohorts.
+> An oral microbiome wellness index differentiates healthy from non-healthy states across multiple cohorts.
 
-The complete journal citation and DOI will be added when available.
+Publication details and DOI will be added when available.
 
 ## License and support
 
-The source code is released under the [MIT License](LICENSE).
-
-For questions, bug reports or suggestions, please use [GitHub Issues](https://github.com/Minjunhoo2001/OMWI/issues).
+The source code is distributed under the [MIT License](LICENSE). For questions, bug reports or suggestions, use [GitHub Issues](https://github.com/Minjunhoo2001/OMWI/issues).

@@ -1,0 +1,4 @@
+sample_id	OMWI	prob_healthy
+synthetic_positive_weighted	0.124695652731744	0.53113358227922
+synthetic_negative_weighted	-4.69831885861052	0.0090283271083136
+synthetic_sparse	-2.47280625346719	0.0777866872899702

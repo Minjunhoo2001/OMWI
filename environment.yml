@@ -1,19 +1,13 @@
 name: omwi_env
-
 channels:
   - conda-forge
   - bioconda
-  - defaults
-
 dependencies:
   - python=3.10
+  - pandas
   - fastp=0.24.1
   - bowtie2=2.5.4
   - metaphlan=4.1.1
   - samtools
-  - pigz
-  - r-base
+  - r-base=4.4
   - r-data.table
-  - r-optparse
-  - conda-pack
-
