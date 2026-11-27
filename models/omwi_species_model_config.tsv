@@ -1,19 +1,39 @@
-key	value
+parameter	value
 model_name	OMWI
-taxonomic_level	species
-profiler	MetaPhlAn4
-transform	CLR
-clr_universe	omwi_species_universe.tsv
-missing_taxa	Species absent from the input sample are assigned zero abundance before adding pseudocount.
-pseudocount	1e-6
-score_type	glmnet linear predictor / logit link
-score_formula	OMWI = intercept + sum(CLR_species_i * coefficient_i)
-decision_boundary	0
-positive_score	more health-associated oral microbial profile
-negative_score	more disease-associated oral microbial profile
-glmnet_s	lambda.1se
-alpha	0.5
-source_rds	/share/home/HeMinjun/metagenomic/Oral_proxy_v2/04.lasso64/model_objects/cvfit_species_alpha050_best_model.rds
-n_universe_taxa	175
-n_nonzero_taxa_excluding_intercept	50
-sum_nonzero_coefficients_excluding_intercept	0.259747338006181
+model_type	elastic_net_logistic_regression
+feature_level	species
+input_profile	MetaPhlAn4 species relative abundance
+metaphlan_version	4.1.1
+metaphlan_database	mpa_vJun23_CHOCOPhlAnSGB_202403
+preprocessing.transform	TSS_then_CLR
+preprocessing.universe	80 fixed panel species only
+preprocessing.pseudocount	1e-06
+preprocessing.pseudocount_scale	percentage
+preprocessing.tss_multiplier	100
+preprocessing.missing_model_taxa	fill_zero
+preprocessing.zero_panel_sample	intercept_only_flagged
+preprocessing.uses_MMUPHin	False
+model.K	80
+model.n_nonzero	80
+model.n_positive	39
+model.n_negative	41
+model.alpha	0.1
+model.lambda_used	selected_gamma_times_lambda_max
+model.lambda_value	0.0381219736104382
+model.gamma	0.025
+model.intercept	-2.28681168777077
+model.positive_label	healthy
+model.negative_label	non_healthy
+model.glmnet_standardize	True
+selection.ranking_alpha	1
+selection.ranking_gamma	0.15
+selection.ranking_prevalence	0.1
+selection.stability_resamples	40
+selection.subsample_fraction	0.8
+selection.auc_loss_budget	0.02
+selection.seed	704
+score.name	OMWI
+score.definition	intercept + sum(coefficient * CLR abundance)
+score.cutoff	0
+score.positive_rule	OMWI > 0
+score.negative_rule	OMWI <= 0

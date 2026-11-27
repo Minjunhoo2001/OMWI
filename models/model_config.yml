@@ -2,24 +2,41 @@ model_name: OMWI
 model_type: elastic_net_logistic_regression
 feature_level: species
 input_profile: MetaPhlAn4 species relative abundance
+metaphlan_version: 4.1.1
 metaphlan_database: mpa_vJun23_CHOCOPhlAnSGB_202403
-
 preprocessing:
-  transform: CLR
-  pseudocount: 1e-6
+  transform: TSS_then_CLR
+  universe: 80 fixed panel species only
+  pseudocount: 1.0e-06
+  pseudocount_scale: percentage
+  tss_multiplier: 100
   missing_model_taxa: fill_zero
-
+  zero_panel_sample: intercept_only_flagged
+  uses_MMUPHin: false
 model:
-  alpha: 0.5
-  lambda_used: lambda.1se
-  lambda_value: 0.0378539279389086
+  K: 80
+  n_nonzero: 80
+  n_positive: 39
+  n_negative: 41
+  alpha: 0.1
+  lambda_used: selected_gamma_times_lambda_max
+  lambda_value: 0.0381219736104382
+  gamma: 0.025
+  intercept: -2.28681168777077
   positive_label: healthy
-  negative_label: disease
-  intercept: -0.800988296731756
-
+  negative_label: non_healthy
+  glmnet_standardize: true
+selection:
+  ranking_alpha: 1
+  ranking_gamma: 0.15
+  ranking_prevalence: 0.1
+  stability_resamples: 40
+  subsample_fraction: 0.8
+  auc_loss_budget: 0.02
+  seed: 704
 score:
   name: OMWI
   definition: intercept + sum(coefficient * CLR abundance)
   cutoff: 0
-  positive_score: health-associated oral microbiome profile
-  negative_score: disease-associated oral microbiome profile
+  positive_rule: OMWI > 0
+  negative_rule: OMWI <= 0
